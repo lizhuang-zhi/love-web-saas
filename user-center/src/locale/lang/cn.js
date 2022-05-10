@@ -1,0 +1,46 @@
+export default {
+    common: {
+        hi: "你好",
+        welcome: "欢迎",
+        sign_in: "登录",
+        sign_out: "注销",
+        sign_up: "注册",
+        confirm: "确认",
+        cancel: "取消",
+        close: "关闭",
+        search: "搜索",
+        username: "用户名",
+        password: "密码",
+        email: "邮箱",
+        code: "验证码",
+        back: "返回",
+        close_left: "关闭左侧",
+        close_all: "关闭所有",
+        close_others: "关闭其它",
+        refresh: "刷新",
+    },
+
+    routes: {
+        dashboard: "仪表盘",
+        home: "首页",
+        setting: "设置",
+        user: "用户中心",
+        messages: "消息中心",
+        menu: "菜单",
+        page: "页面"
+    },
+
+    settings: {
+        theme_setting: "主题设置",
+        theme_dark: "深色",
+        theme_light: "浅色",
+        auto: "自动",
+        locale_setting: "语言",
+        sidebar_reverse: "侧边栏反色",
+        save: "保存",
+        restore: "恢复默认值",
+        need_reload: "需要刷新后生效",
+        discard: "抛弃",
+        cancle: "取消",
+    },
+};

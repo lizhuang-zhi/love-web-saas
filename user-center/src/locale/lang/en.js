@@ -1,0 +1,46 @@
+export default {
+    common: {
+        hi: "Hi",
+        welcome: "Welcome",
+        sign_in: "Sign In",
+        sign_out: "Sign Out",
+        sign_up: "Sign Up",
+        confirm: "Confirm",
+        cancel: "Cancel",
+        close: "Close",
+        search: "Search",
+        username: "Username",
+        password: "Password",
+        email: "Email",
+        code: "Code",
+        back: "Return Back",
+        close_left: "Close Left",
+        close_all: "Close All",
+        close_others: "Close Others",
+        refresh: "Refresh",
+    },
+
+    routes: {
+        dashboard: "Dashboard",
+        home: "Home",
+        setting: "Settings",
+        user: "User",
+        messages: "Messages",
+        menu: "Menu",
+        page: "Page"
+    },
+
+    settings: {
+        theme_setting: "Theme",
+        theme_dark: "Dark",
+        theme_light: "Light",
+        auto: "Auto",
+        locale_setting: "Language",
+        sidebar_reverse: "Sidebar Reverse",
+        save: "Save",
+        discard: "Discard",
+        restore: "Restore",
+        need_reload: "Restore after refresh",
+        cancle: "Cancle",
+    },
+};
