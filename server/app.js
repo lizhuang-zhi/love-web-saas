@@ -20,8 +20,7 @@ const fs = require("fs");
 const cloudBase = tcb.init({
     env: "mrkleo-blog-2gw4gee4088deaca",
     region: "ap-guangzhou",
-    secretId: "AKIDRjnQq56tSlpgKkwutgEYcVGqDLEsHemj",
-    secretKey: "vc9Xi8PWTCkBSXRBi161iBPVP7cnnZAc"
+
 });
 
 var cors = require('koa2-cors');
