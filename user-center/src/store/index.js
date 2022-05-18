@@ -1,4 +1,6 @@
-import { createStore } from "vuex";
+import {
+    createStore
+} from "vuex";
 
 import settings from "./settings";
 import user from "./user";

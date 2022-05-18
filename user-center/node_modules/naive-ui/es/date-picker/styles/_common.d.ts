@@ -19,6 +19,7 @@ declare const _default: {
     calendarLeftPaddingMonth: string;
     calendarLeftPaddingYear: string;
     calendarLeftPaddingQuarter: string;
+    calendarLeftPaddingMonthrange: string;
     calendarRightPaddingDate: string;
     calendarRightPaddingDatetime: string;
     calendarRightPaddingDaterange: string;
@@ -26,5 +27,6 @@ declare const _default: {
     calendarRightPaddingMonth: string;
     calendarRightPaddingYear: string;
     calendarRightPaddingQuarter: string;
+    calendarRightPaddingMonthrange: string;
 };
 export default _default;

@@ -4,15 +4,27 @@
     <n-space vertical :size="distance">
       <n-space align="center">
         描述:
-        <n-input v-model:value="value" type="text" placeholder="请输入.." />
+        <n-input
+          v-model:value="itemData.leftTopDesc"
+          type="text"
+          placeholder="请输入.."
+        />
       </n-space>
       <n-space align="center">
         描述:
-        <n-input v-model:value="value" type="text" placeholder="请输入.." />
+        <n-input
+          v-model:value="itemData.leftBottomDesc"
+          type="text"
+          placeholder="请输入.."
+        />
       </n-space>
       <n-space align="center">
         主题:
-        <n-input v-model:value="value" type="text" placeholder="请输入.." />
+        <n-input
+          v-model:value="itemData.leftTitle"
+          type="text"
+          placeholder="请输入.."
+        />
       </n-space>
     </n-space>
     <!-- 右侧 -->
@@ -20,43 +32,53 @@
       <n-space>
         配图:
         <n-upload
-          action="https://www.mocky.io/v2/5e4bafc63100007100d8b70f"
+          :action="apiBaseUrlUpload"
+          :headers="headers"
+          :data="uploadData"
           :default-file-list="previewFileList"
           list-type="image-card"
           max="1"
-          @preview="handlePreview"
+          accept=".jpg,.jpeg,.png"
+          @before-upload="beforeUpload"
+          @remove="removeSingleFile"
+          @finish="handleFinish"
         />
       </n-space>
       <n-space align="center">
         主题:
-        <n-input v-model:value="value" type="text" placeholder="请输入.." />
+        <n-input
+          v-model:value="itemData.rightTitle"
+          type="text"
+          placeholder="请输入.."
+        />
       </n-space>
       <n-space align="center">
         描述:
-        <n-input v-model:value="value" type="text" placeholder="请输入.." />
+        <n-input
+          v-model:value="itemData.rightDesc"
+          type="text"
+          placeholder="请输入.."
+        />
       </n-space>
     </n-space>
   </n-space>
-  <n-space style="margin-top: 20px;" justify="center">
-    <n-button strong secondary @click="clearContent"> 清空设置 </n-button>
-    <n-button strong secondary type="primary" @click="saveContent">
-      保存设置
-    </n-button>
-  </n-space>
-  <!-- 照片查看框 -->
-  <n-modal
-    v-model:show="showModal"
-    preset="card"
-    style="width: 600px"
-    title="一张很酷的图片"
-  >
-    <img :src="previewImageUrl" style="width: 100%" />
-  </n-modal>
 </template>
 
-<script lang='ts'>
-import { defineComponent, ref } from "vue";
-import { NCarousel, NInput, NSpace, NUpload, NModal, NButton } from "naive-ui";
+<script>
+import { defineComponent, onMounted, ref, reactive, watch } from "vue";
+import {
+  NCarousel,
+  NInput,
+  NSpace,
+  NUpload,
+  NModal,
+  NButton,
+  useNotification,
+  useMessage,
+} from "naive-ui";
+import { API_BASE_URL } from "@/settings.js";
+import { useStore } from "vuex";
+import { DelFileSingle } from "@/api/fourthPage";
 
 export default defineComponent({
   name: "CarouselItem",
@@ -66,28 +88,118 @@ export default defineComponent({
     NSpace,
     NUpload,
     NModal,
-    NButton
+    NButton,
   },
-  setup() {
-    const showModalRef = ref(false);
-    const previewImageUrlRef = ref("");
-    function handlePreview(file) {
-      const { url } = file;
-      previewImageUrlRef.value = url;
-      showModalRef.value = true;
-    }
+  props: ["picIndex", "itemData"],
+  setup(props, { emit }) {
+    // 上传文件请求地址
+    const apiBaseUrlUpload = API_BASE_URL + "/upload/4";
+    const Store = useStore();
+    const message = useMessage();
+    const notification = useNotification();
+    const previewFileList = reactive([]);
+
+    // 定义消息通知
+    const notify = (type, message) => {
+      notification[type]({
+        content: message,
+        duration: 1500,
+      });
+    };
+
+    // 上传文件时, 携带上userid
+    const headers = reactive({
+      ["Authorization"]: localStorage.getItem("token"),
+    });
+    // 上传文件时, 携带上userid
+    const uploadData = reactive({
+      userId: "",
+    });
+
+    onMounted(() => {
+      // 初始化用户id
+      uploadData.userId = Store.state.user.userid;
+      // 获取图片url
+      let url = props.itemData.fileObj.url;
+      if (url == "") {
+        previewFileList.pop();
+      }
+    });
+
+    // 文件上传前的限制
+    const beforeUpload = (data) => {
+      // 512000bit == 500KB
+      if (data.file.file?.size >= 512000) {
+        message.error("限制图片大小为500KB以内，请重新上传");
+        return false;
+      }
+      return true;
+    };
+    // 删除文件
+    const removeSingleFile = async ({ file, fileList }) => {
+      // 获取最新的文件名
+      const fileName = props.itemData.fileObj.name;
+      console.log(fileName);
+      let result = await DelFileSingle({
+        fileName: fileName,
+      });
+      console.log(result);
+      // 同时还要更新响应式数组里的数据
+      props.itemData.fileObj.url = "";
+      if (result.status == 200) {
+        notify("success", result.message);
+      }
+    };
+    // 完成文件上传回调函数
+    const handleFinish = ({ file, event }) => {
+      // 响应文本
+      const responseJSON = (event?.target).response;
+      const response = JSON.parse(responseJSON);
+      console.log(response);
+      if (response.status == 200) {
+        message.success(response.message);
+        // 改变父组件中对应元素的文件名
+        // 获取新的文件名
+        let newFileName = response.data.fileName;
+        let picIndex = props.picIndex;
+        console.log(newFileName);
+        emit("updateFileName", {
+          newFileName,
+          picIndex,
+        });
+      } else {
+        message.error(response.message);
+      }
+      return file;
+    };
+
+    watch(
+      [
+        () => props.itemData.fileObj.url,
+        () => props.itemData.fileObj.name,
+        () => props.itemData.fileObj.id,
+      ],
+      ([url, name, id]) => {
+        if (url != "") {
+          previewFileList[0] = {
+            name: name,
+            url: url,
+            status: "finished",
+            id: id,
+          };
+        }
+      },
+      { immediate: true, deep: true }
+    );
+
     return {
-      handlePreview,
-      showModal: showModalRef,
-      previewImageUrl: previewImageUrlRef,
-      previewFileList: ref([
-        {
-          id: "vue",
-          name: "我是vue.png",
-          status: "finished",
-          url: "https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg",
-        },
-      ]),
+      apiBaseUrlUpload,
+      headers,
+      uploadData,
+      previewFileList,
+      beforeUpload,
+      removeSingleFile,
+      handleFinish,
       // 间隔距离
       distance: ref(36),
     };

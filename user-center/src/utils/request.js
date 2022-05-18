@@ -1,8 +1,10 @@
 import axios from 'axios'
+import {API_BASE_URL} from "@/settings.js"
 
 //全局配置
-axios.defaults.baseURL = "http://127.0.0.1:5001"
-axios.defaults.timeout = 5000
+axios.defaults.baseURL = API_BASE_URL;
+// 设置请求超时时间
+axios.defaults.timeout = 10000
 
 export function request(config) {
     const instace = axios.create({})

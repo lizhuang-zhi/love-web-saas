@@ -10,6 +10,7 @@ exports.default = (0, vue_1.defineComponent)({
             type: String,
             required: true
         },
+        right: Boolean,
         focusable: Boolean,
         disabled: Boolean,
         checked: Boolean,
@@ -39,7 +40,10 @@ exports.default = (0, vue_1.defineComponent)({
     },
     render() {
         const { clsPrefix, mergedTheme, checked, indeterminate, disabled, focusable, handleUpdateValue } = this;
-        return ((0, vue_1.h)("span", { class: `${clsPrefix}-tree-node-checkbox`, "data-checkbox": true },
+        return ((0, vue_1.h)("span", { class: [
+                `${clsPrefix}-tree-node-checkbox`,
+                this.right && `${clsPrefix}-tree-node-checkbox--right`
+            ], "data-checkbox": true },
             (0, vue_1.h)(checkbox_1.NCheckbox, { focusable: focusable, disabled: disabled, theme: mergedTheme.peers.Checkbox, themeOverrides: mergedTheme.peerOverrides.Checkbox, checked: checked, indeterminate: indeterminate, onUpdateChecked: handleUpdateValue })));
     }
 });

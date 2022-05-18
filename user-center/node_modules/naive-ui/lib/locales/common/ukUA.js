@@ -44,6 +44,9 @@ const ukUA = {
         endDatePlaceholder: 'Дата завершення',
         startDatetimePlaceholder: 'Дата і час початку',
         endDatetimePlaceholder: 'Дата і час завершення',
+        // FIXME: translation needed
+        startMonthPlaceholder: 'Start Month',
+        endMonthPlaceholder: 'End Month',
         monthBeforeYear: true,
         firstDayOfWeek: 0,
         today: 'Сьогодні'

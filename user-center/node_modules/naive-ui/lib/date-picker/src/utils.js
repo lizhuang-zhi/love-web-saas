@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getDefaultTime = exports.getDerivedTimeFromKeyboardEvent = exports.strictParse = exports.quarterArray = exports.yearArray = exports.monthArray = exports.dateArray = void 0;
+exports.pluckValueFromRange = exports.getDefaultTime = exports.getDerivedTimeFromKeyboardEvent = exports.strictParse = exports.quarterArray = exports.yearArray = exports.monthArray = exports.dateArray = void 0;
 const date_fns_1 = require("date-fns");
 const config_1 = require("./config");
 function getDerivedTimeFromKeyboardEvent(prevValue, event) {
@@ -26,7 +26,7 @@ const matcherMap = {
     year: date_fns_1.isSameYear,
     quarter: date_fns_1.isSameQuarter
 };
-function matchDate(sourceTime, patternTime, type = 'date') {
+function matchDate(sourceTime, patternTime, type) {
     const matcher = matcherMap[type];
     if (Array.isArray(sourceTime)) {
         return sourceTime.some((time) => matcher(time, patternTime));
@@ -35,6 +35,8 @@ function matchDate(sourceTime, patternTime, type = 'date') {
         return matcher(sourceTime, patternTime);
     }
 }
+// date item's valueTs can be a tuple since two date may show in one panel, so
+// any matched value would make it shown as selected
 function dateItem(time, monthTs, valueTs, currentTs) {
     let inSpan = false;
     let startOfSpan = false;
@@ -43,11 +45,16 @@ function dateItem(time, monthTs, valueTs, currentTs) {
         if (valueTs[0] < time && time < valueTs[1]) {
             inSpan = true;
         }
-        if (matchDate(valueTs[0], time))
+        if (matchDate(valueTs[0], time, 'date'))
             startOfSpan = true;
-        if (matchDate(valueTs[1], time))
+        if (matchDate(valueTs[1], time, 'date'))
             endOfSpan = true;
     }
+    const selected = valueTs !== null &&
+        (Array.isArray(valueTs)
+            ? matchDate(valueTs[0], time, 'date') ||
+                matchDate(valueTs[1], time, 'date')
+            : matchDate(valueTs, time, 'date'));
     return {
         type: 'date',
         dateObject: {
@@ -56,11 +63,11 @@ function dateItem(time, monthTs, valueTs, currentTs) {
             year: (0, date_fns_1.getYear)(time)
         },
         inCurrentMonth: (0, date_fns_1.isSameMonth)(time, monthTs),
-        isCurrentDate: matchDate(currentTs, time),
+        isCurrentDate: matchDate(currentTs, time, 'date'),
         inSpan,
         startOfSpan,
         endOfSpan,
-        selected: valueTs !== null && matchDate(valueTs, time),
+        selected,
         ts: (0, date_fns_1.getTime)(time)
     };
 }
@@ -135,9 +142,9 @@ function dateArray(monthTs, valueTs, currentTs, startDay, strip = false) {
     return calendarDays;
 }
 exports.dateArray = dateArray;
-function monthArray(monthTs, valueTs, currentTs) {
+function monthArray(yearAnchorTs, valueTs, currentTs) {
     const calendarMonths = [];
-    const yearStart = (0, date_fns_1.startOfYear)(monthTs);
+    const yearStart = (0, date_fns_1.startOfYear)(yearAnchorTs);
     for (let i = 0; i < 12; i++) {
         calendarMonths.push(monthItem((0, date_fns_1.getTime)((0, date_fns_1.addMonths)(yearStart, i)), valueTs, currentTs));
     }
@@ -153,7 +160,7 @@ function quarterArray(quarterTs, valueTs, currentTs) {
     return calendarQuarters;
 }
 exports.quarterArray = quarterArray;
-function yearArray(yearTs, valueTs, currentTs) {
+function yearArray(valueTs, currentTs) {
     const calendarYears = [];
     const time1900 = new Date(config_1.START_YEAR, 0, 1);
     // 1900 is not a round time, so we use 1911 as start...
@@ -190,3 +197,7 @@ function getDefaultTime(timeValue) {
     };
 }
 exports.getDefaultTime = getDefaultTime;
+function pluckValueFromRange(value, type) {
+    return Array.isArray(value) ? value[type === 'start' ? 0 : 1] : null;
+}
+exports.pluckValueFromRange = pluckValueFromRange;

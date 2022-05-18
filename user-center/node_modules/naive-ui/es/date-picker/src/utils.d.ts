@@ -1,4 +1,5 @@
 import { Locale } from 'date-fns';
+import { Value } from './interface';
 declare function getDerivedTimeFromKeyboardEvent(prevValue: number | null, event: KeyboardEvent): number;
 export interface DateItem {
     type: 'date';
@@ -49,9 +50,9 @@ export interface QuarterItem {
  * return the date array of display time's month.
  */
 declare function dateArray(monthTs: number, valueTs: number | [number, number] | null, currentTs: number, startDay: 0 | 1 | 2 | 3 | 4 | 5 | 6, strip?: boolean): DateItem[];
-declare function monthArray(monthTs: number, valueTs: number | [number, number] | null, currentTs: number): MonthItem[];
-declare function quarterArray(quarterTs: number, valueTs: number | [number, number] | null, currentTs: number): QuarterItem[];
-declare function yearArray(yearTs: number, valueTs: number | [number, number] | null, currentTs: number): YearItem[];
+declare function monthArray(yearAnchorTs: number, valueTs: number | null, currentTs: number): MonthItem[];
+declare function quarterArray(quarterTs: number, valueTs: number | null, currentTs: number): QuarterItem[];
+declare function yearArray(valueTs: number | null, currentTs: number): YearItem[];
 declare function strictParse(string: string, pattern: string, backup: Date, option: {
     locale: Locale;
 }): Date;
@@ -60,4 +61,5 @@ declare function getDefaultTime(timeValue: string | undefined): {
     minutes: number;
     seconds: number;
 } | undefined;
-export { dateArray, monthArray, yearArray, quarterArray, strictParse, getDerivedTimeFromKeyboardEvent, getDefaultTime };
+declare function pluckValueFromRange(value: Value | null, type: 'start' | 'end'): number | null;
+export { dateArray, monthArray, yearArray, quarterArray, strictParse, getDerivedTimeFromKeyboardEvent, getDefaultTime, pluckValueFromRange };

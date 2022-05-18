@@ -9,6 +9,7 @@ export default [
             title: "routes.dashboard",
             i18n: true,
             noCached: true,
+            requiresAuth: true,
             icon: '<i class="ri-dashboard-fill"></i>',
         },
     },

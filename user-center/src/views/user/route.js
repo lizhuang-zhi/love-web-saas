@@ -9,6 +9,7 @@ export default [
             title: "routes.user",
             i18n: true,
             hide: true,
+            requiresAuth: true,
         },
     },
 ];

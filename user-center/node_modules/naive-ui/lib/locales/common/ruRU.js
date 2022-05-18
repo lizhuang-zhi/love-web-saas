@@ -44,6 +44,9 @@ const ruRu = {
         endDatePlaceholder: 'Дата окончания',
         startDatetimePlaceholder: 'Дата и время начала',
         endDatetimePlaceholder: 'Дата и время окончания',
+        // FIXME: translation needed
+        startMonthPlaceholder: 'Start Month',
+        endMonthPlaceholder: 'End Month',
         monthBeforeYear: true,
         firstDayOfWeek: 0,
         today: 'Сегодня'

@@ -8,6 +8,7 @@ export default defineComponent({
             type: String,
             required: true
         },
+        right: Boolean,
         focusable: Boolean,
         disabled: Boolean,
         checked: Boolean,
@@ -37,7 +38,10 @@ export default defineComponent({
     },
     render() {
         const { clsPrefix, mergedTheme, checked, indeterminate, disabled, focusable, handleUpdateValue } = this;
-        return (h("span", { class: `${clsPrefix}-tree-node-checkbox`, "data-checkbox": true },
+        return (h("span", { class: [
+                `${clsPrefix}-tree-node-checkbox`,
+                this.right && `${clsPrefix}-tree-node-checkbox--right`
+            ], "data-checkbox": true },
             h(NCheckbox, { focusable: focusable, disabled: disabled, theme: mergedTheme.peers.Checkbox, themeOverrides: mergedTheme.peerOverrides.Checkbox, checked: checked, indeterminate: indeterminate, onUpdateChecked: handleUpdateValue })));
     }
 });

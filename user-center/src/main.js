@@ -14,8 +14,3 @@ app.use(i18n)
     .use(store)
     .use(router)
     .mount("#app");
-
-/**
- *  UI: Naive UI['https://www.naiveui.com/zh-CN/light/components/button']
- *  ICON: ['https://remixicon.com']
- */

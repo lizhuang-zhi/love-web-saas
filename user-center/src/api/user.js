@@ -14,6 +14,19 @@ export function UserLogin(data) {
 }
 
 /**
+ * 注册
+ * @param {*} data
+ * @returns
+ */
+ export function UserRegister(data) {
+    return request({
+        url: `register`,
+        method: "post",
+        data,
+    });
+}
+
+/**
  * 验证用户登录状态
  * @param {*} data
  * @returns
@@ -26,49 +39,41 @@ export function UserLogin(data) {
 }
 
 /**
+ * 验证邮箱是否已经注册
+ * @param {*} data
+ * @returns
+ */
+ export function VerifyEmailExist(data) {
+    return request({
+        url: `email/exist`,
+        method: "post",
+        data,
+    });
+}
+
+/**
+ * 发送验证码
+ * @param {*} data
+ * @returns
+ */
+ export function EmailCodeSend(data) {
+    return request({
+        url: `email/send`,
+        method: "post",
+        data,
+    });
+}
+
+/**
  * 注销
  * @returns
  */
-export function UserLogout() {
-    return request({
-        url: `logout`,
-        method: "post",
-    });
-}
+// export function UserLogout() {
+//     return request({
+//         url: `logout`,
+//         method: "post",
+//     });
+// }
 
 
-/**
- * 测试登陆
- * @param {*} formData
- * @returns
- */
-export function __UserLogin({
-    username,
-    password
-}) {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            if (username === "admin") {
-                if (password === "admin") {
-                    resolve({
-                        code: 200,
-                        token: "rho-administrator",
-                        name: "leo",
-                        avatar: "https://e7.pngegg.com/pngimages/550/224/png-clipart-rho-greek-alphabet-letter-case-gamma-letter-p-miscellaneous-angle-thumbnail.png",
-                        role: "admin",
-                    });
-                } else {
-                    resolve({
-                        code: 2,
-                        msg: "Wrong Password",
-                    });
-                }
-            } else {
-                resolve({
-                    code: 1,
-                    msg: "User Doesn' Exist",
-                });
-            }
-        }, 1000);
-    });
-}
+

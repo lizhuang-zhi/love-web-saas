@@ -41,6 +41,8 @@ const enUS = {
         endDatePlaceholder: 'End Date',
         startDatetimePlaceholder: 'Start Date and Time',
         endDatetimePlaceholder: 'End Date and Time',
+        startMonthPlaceholder: 'Start Month',
+        endMonthPlaceholder: 'End Month',
         monthBeforeYear: true,
         firstDayOfWeek: 6,
         today: 'Today'

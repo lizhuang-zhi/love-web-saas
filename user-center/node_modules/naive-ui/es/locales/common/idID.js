@@ -42,6 +42,9 @@ const idID = {
         endDatePlaceholder: 'Tanggal Selesai',
         startDatetimePlaceholder: 'Tanggal dan Waktu Mulai',
         endDatetimePlaceholder: 'Tanggal dan Waktu Selesai',
+        // FIXME: translation needed
+        startMonthPlaceholder: 'Start Month',
+        endMonthPlaceholder: 'End Month',
         monthBeforeYear: true,
         firstDayOfWeek: 6,
         today: 'Hari ini'

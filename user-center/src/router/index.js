@@ -12,23 +12,21 @@ const Router = createRouter({
     routes,
 });
 
-// Router.beforeEach(async (to, from, next) => {
-//     // 验证 token 的有效性, 然后初始化用户信息
-//     let user = await CheckStatus();
-//     console.log(user);
-//     // token 有效
-//     // if(user.status == 200) {
-//     //     Store.dispatch("user/INITUSERINFO", user);
-//     //     next();
-//     // }else if(to.name == "Login" && user.status != 200) {
-//     //     next({ name: "Login" })
-//     // }else if(to.name == "Register" && user.status != 200) {
-//     //     next({ name: "Register" })
-//     // }else {
-//     //     // 
-//     //     next({ name: "Login" })
-//     // }
-// });
+Router.beforeEach(async (to, from, next) => {
+    // 登录后, 会设置的 userId
+    let token = Store.state.user.token;
+    // 页面需要登录
+    if(to.matched.some(item => item.meta.requiresAuth)) {
+        // 用户登录
+        if(token) {
+            return next();
+        }
+        // 用户未登录
+        return next({ name: "Login" })
+    }
+    // 页面不需要登录,就可以进
+    return next();
+});
 
 Router.afterEach((to) => {
     let { title, i18n } = to?.meta;

@@ -44,6 +44,9 @@ const nbNO = {
         endDatePlaceholder: 'Sluttdato',
         startDatetimePlaceholder: 'Startdato og -tid',
         endDatetimePlaceholder: 'Sluttdato og -tid',
+        // FIXME: translation needed
+        startMonthPlaceholder: 'Start Month',
+        endMonthPlaceholder: 'End Month',
         monthBeforeYear: true,
         firstDayOfWeek: 0,
         today: 'I dag'

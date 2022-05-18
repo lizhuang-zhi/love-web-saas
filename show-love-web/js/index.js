@@ -1,56 +1,292 @@
-window.onload = function () {
-    // 获取love-you对象（点击首页的按钮弹出一个框）
-    // let love_you_btn = document.querySelector('#love-you-btn');
-    // love_you_btn.addEventListener('click', function () {
-    //     // 获取love-you的弹出框
-    //     let notification = document.querySelector('.notification-love-you');
-    //     notification.style.left = '50px';
-    //     let timer = setTimeout(() => {
-    //         notification.style.left = '-430px';
-    //         clearTimeout(timer);
-    //     }, 3000)
-    // })
+// 倒计时 runTimer 
+let runTimer = null;
+// 总结部分的字体添加动效果
+const res_words_animation = 'tracking-in-contract-bck-top-res-section';
+// 倒计时的字体进入动效
+const timer_in_animation = 'tracking-in-contract-bck-bottom';
+// video部分的字体进入动效
+const video_in_animation = 'focus-in-expand';
+// 相识默认时间
+let defaultKnowEachTime = 0;
+// 相爱默认时间
+let defaultLoveEachTime = 0;
 
-    // 倒计时 runTimer 
-    let runTimer = null;
-    // 总结部分的字体添加动效果
-    const res_words_animation = 'tracking-in-contract-bck-top-res-section';
-    // 倒计时的字体进入动效
-    const timer_in_animation = 'tracking-in-contract-bck-bottom';
-    // video部分的字体进入动效
-    const video_in_animation = 'focus-in-expand';
+// axios 实例
+const instance = axios.create({
+    baseURL: 'http://162.14.99.93:5001',
+    // baseURL: 'http://127.0.0.1:5001',
+    timeout: 4000
+});
+/* 
+    获取 localStorage 中用户信息
+*/
+function checkStorageInfo() {
+    let loaclStorageInfo = localStorage.getItem("userInfo");
+    // 解析信息
+    let userInfo = JSON.parse(loaclStorageInfo);
+    return userInfo;
+}
 
-    // fullpage
+/* 
+    修改第五页内容 - 相识实践
+*/
+function updateDomContent5(userInfo) {
+    // 发起post请求
+    return instance({
+        method: 'post',
+        url: '/getInfo/5',
+        data: {
+            userId: userInfo._id
+        }
+    });
+}
+
+/* 
+    修改第七页内容 - 相爱时间
+*/
+function updateDomContent7(userInfo) {
+    // 发起post请求
+    return instance({
+        method: 'post',
+        url: '/getInfo/7',
+        data: {
+            userId: userInfo._id
+        }
+    });
+}
+/* 
+    修改第一页内容
+*/
+async function updateDomContent1() {
+    let userInfo = checkStorageInfo();
+    if (!userInfo) {
+        return;
+    }
+    // 发起第一页post请求
+    let page1_request = instance({
+        method: 'post',
+        url: '/getInfo/1',
+        data: {
+            userId: userInfo._id
+        }
+    });
+    let result = await Promise.all([page1_request, updateDomContent5(userInfo), updateDomContent7(userInfo)]);
+    // 设置第一页信息
+    let getFirstPageInfo = result[0].data.data;
+    if (getFirstPageInfo) {
+        // 获取主题
+        let themeDom = document.getElementById('theme-content-1');
+        // 获取描述
+        let descDom = document.getElementById('desc-content-1');
+        // 获取按钮
+        let btnDom = document.getElementById('love-you-btn');
+        themeDom.innerText = getFirstPageInfo.themeContent;
+        descDom.innerText = getFirstPageInfo.description;
+        btnDom.innerText = getFirstPageInfo.btnContent;
+    }
+    // 第五页 - 设置相识时间
+    let getFifthPageInfo = result[1].data.data;
+    if (getFifthPageInfo) {
+        defaultKnowEachTime = Number(getFifthPageInfo.timeStamp);
+    }
+    // 第七页 - 设置相爱时间
+    let getSeventhPageInfo = result[2].data.data;
+    if (getSeventhPageInfo) {
+        defaultLoveEachTime = Number(getSeventhPageInfo.timeStamp);
+    }
+}
+/* 
+    修改第二页内容
+*/
+async function updateDomContent2() {
+    let userInfo = checkStorageInfo();
+    if (!userInfo) {
+        return;
+    }
+    // 发起post请求
+    let result = await instance({
+        method: 'post',
+        url: '/getInfo/2',
+        data: {
+            userId: userInfo._id
+        }
+    });
+    // 获取信息
+    let getInfo = result.data.data;
+    if (getInfo) {
+        // 添加 video 
+        let videoFather = document.getElementById('video-2');
+        let sourceNode = document.createElement('source');
+        sourceNode.src = getInfo.fileUrl;
+        sourceNode.type = "video/mp4";
+        videoFather.appendChild(sourceNode);
+        let upText = document.getElementById('baby-video-words-cont');
+        upText.innerText = getInfo.upText;
+    }
+}
+/* 
+    修改第三页内容
+*/
+async function updateDomContent3() {
+    let userInfo = checkStorageInfo();
+    if (!userInfo) {
+        return;
+    }
+    // 发起post请求
+    let result = await instance({
+        method: 'post',
+        url: '/getInfo/3',
+        data: {
+            userId: userInfo._id
+        }
+    });
+    // 获取信息
+    let getInfo = result.data.data;
+    if (getInfo) {
+        // 添加 video 
+        let videoFather = document.getElementById('video-3');
+        let sourceNode = document.createElement('source');
+        sourceNode.src = getInfo.fileUrl;
+        sourceNode.type = "video/mp4";
+        videoFather.appendChild(sourceNode);
+        let upText = document.getElementById('zz-video-words-cont');
+        upText.innerText = getInfo.upText;
+    }
+}
+/* 
+    修改第四页内容
+*/
+async function updateDomContent4() {
+    let userInfo = checkStorageInfo();
+    if (!userInfo) {
+        return;
+    }
+    // 发起post请求
+    let result = await instance({
+        method: 'post',
+        url: '/getInfo/4',
+        data: {
+            userId: userInfo._id
+        }
+    });
+    // 获取信息
+    let getInfo = result.data.data;
+    if (getInfo) {
+        // 获取数据集合
+        let RotationMap = getInfo.RotationMap;
+        if (RotationMap) {
+            for (let i = 0; i < RotationMap.length; i++) {
+                // 获取数据
+                let data = RotationMap[i];
+                let item = document.querySelector(`#rotation-${i + 1}`);
+                // 设置左侧
+                let left = item.children[0];
+                let l_desc1 = left.children[1].children[0];
+                let l_desc2 = left.children[1].children[1];
+                let l_tit = left.children[2];
+                l_desc1.innerText = data.leftTopDesc
+                l_desc2.innerText = data.leftBottomDesc
+                l_tit.innerText = data.leftTitle
+
+                // 设置右侧
+                let right = item.children[1];
+                let r_pic = right.children[0].children[0];
+                let r_tit = right.children[0].children[1].children[0];
+                let r_desc = right.children[0].children[1].children[1];
+                r_pic.src = data.fileObj.url
+                r_tit.innerText = data.rightTitle
+                r_desc.innerText = data.rightDesc
+            }
+        }
+    }
+}
+/* 
+    修改第六页内容
+*/
+async function updateDomContent6() {
+    let userInfo = checkStorageInfo();
+    if (!userInfo) {
+        return;
+    }
+    // 发起post请求
+    let result = await instance({
+        method: 'post',
+        url: '/getInfo/6',
+        data: {
+            userId: userInfo._id
+        }
+    });
+    // 获取信息
+    let getInfo = result.data.data;
+    if (getInfo) {
+        let title = document.querySelector("#title-6");
+        let desc11 = document.querySelector("#desc-1-1");
+        let desc12 = document.querySelector("#desc-1-2");
+        let desc2 = document.querySelector("#desc-2");
+        let desc3 = document.querySelector("#desc-3");
+        let desc4 = document.querySelector("#desc-4");
+        let desc5 = document.querySelector("#desc-5");
+        let desc6 = document.querySelector("#desc-6");
+        let desc7 = document.querySelector("#desc-7");
+        title.innerText = getInfo.title;
+        desc11.innerText = getInfo.desc11;
+        desc12.innerText = getInfo.desc12;
+        desc2.innerText = getInfo.desc2;
+        desc3.innerText = getInfo.desc3;
+        desc4.innerText = getInfo.desc4;
+        desc5.innerText = getInfo.desc5;
+        desc6.innerText = getInfo.desc6;
+        desc7.innerText = getInfo.desc7;
+    }
+}
+
+/* 
+    修改第八页内容
+*/
+async function updateDomContent8() {
+    let userInfo = checkStorageInfo();
+    if (!userInfo) {
+        return;
+    }
+    // 发起post请求
+    let result = await instance({
+        method: 'post',
+        url: '/getInfo/8',
+        data: {
+            userId: userInfo._id
+        }
+    });
+    // 获取信息
+    let getInfo = result.data.data;
+    if (getInfo) {
+        // 获取数组前五个元素
+        let fileArr = getInfo.fileArr.filter((item, index) => {
+            return index < 6;
+        })
+        let photoList = document.querySelector(".photo-list");
+        for (let i = 0; i < fileArr.length; i++) {
+            // 重置每个元素的子元素的src
+            photoList.children[i].children[0].setAttribute('src', fileArr[i].url);
+        }
+    }
+}
+
+
+window.onload = async function () {
+    // 设置第一页数据
+    await updateDomContent1();
+
+    // fullpage 
     var myFullpage = new fullpage('#fullpage', {
         verticalCentered: true,
         // 导航小圆点
         navigation: true,
-        //是否显示横向幻灯片的导航
-        // slidesNavigation: true,
-        // slidesNavPosition: 'top',
-
-        // sectionsColor: ['#ffffff', '#4BBFC3', '#7BAABE', '#7BAABE', '#4BBFC3'],
-
-        afterLoad: function (origin, destination, direction) {
-            // 到相识计时器的部分的时候
-            if (destination.index == 4) {
-                let timer_animation = document.querySelector('.timer-main');
-                timer_animation.classList.remove('hide-res');
-                timer_animation.classList.add('show-res');
-                timer_animation.classList.add(timer_in_animation);
-            }
-
-            // 到相爱计时器的部分的时候
-            if (destination.index == 6) {
-                let timer_animation = document.querySelector('.timer-main-love');
-                timer_animation.classList.remove('hide-res');
-                timer_animation.classList.add('show-res');
-                timer_animation.classList.add(timer_in_animation);
-            }
-
+        afterLoad: async function (origin, destination, direction) {
             // 到第一个video的部分的时候
             if (destination.index == 1) {
-                let gaga_video = document.querySelector('#gaga-video-words');
+                updateDomContent2();
+                // 添加上方文字动画效果
+                let gaga_video = document.querySelector('#baby-video-words');
                 gaga_video.classList.remove('hide-res');
                 gaga_video.classList.add('show-res');
                 gaga_video.classList.add(video_in_animation);
@@ -58,9 +294,9 @@ window.onload = function () {
                 let bgm = document.getElementById('bgm');
                 bgm.play();
             }
-
             // 到第二个video的部分的时候
             if (destination.index == 2) {
+                updateDomContent3();
                 let zz_video = document.querySelector('#zz-video-words');
                 zz_video.classList.remove('hide-res');
                 zz_video.classList.add('show-res');
@@ -69,17 +305,38 @@ window.onload = function () {
                 let bgm = document.getElementById('bgm');
                 bgm.play();
             }
-
+            // 到轮播图的部分的时候
+            if (destination.index == 3) {
+                updateDomContent4();
+            }
+            // 到相识计时器的部分的时候
+            if (destination.index == 4) {
+                // 第二个参数为默认设置, 不用在意
+                let timer_animation = document.querySelector('.timer-main');
+                timer_animation.classList.remove('hide-res');
+                timer_animation.classList.add('show-res');
+                timer_animation.classList.add(timer_in_animation);
+            }
             // 到总结的部分的时候
             if (destination.index == 5) {
+                updateDomContent6();
                 let res_content = document.querySelector('#res-content');
                 res_content.classList.remove('hide-res');
                 res_content.classList.add('show-res');
                 res_content.classList.add(res_words_animation)
             }
-
+            // 到相爱计时器的部分的时候
+            if (destination.index == 6) {
+                // 第一个参数为默认设置, 不用在意
+                let timer_animation = document.querySelector('.timer-main-love');
+                timer_animation.classList.remove('hide-res');
+                timer_animation.classList.add('show-res');
+                timer_animation.classList.add(timer_in_animation);
+            }
             // 监听箭头是否到最后一个部分（相册）
             if (destination.index == 7) {
+                updateDomContent8();
+
                 // 去除最后一个部分的向下小箭头 
                 let arrow_down = document.querySelector('.arrow-down');
                 arrow_down.style.opacity = '0';
@@ -104,9 +361,7 @@ window.onload = function () {
                     item.classList.add('show-res');
                     item.classList.add('slide-in-bck-bl-photos-list');
                 }
-
             }
-
         },
         onLeave: function (origin, destination, direction) {
             // 离开相识计时器的部分的时候
@@ -134,7 +389,7 @@ window.onload = function () {
             // 离开第一个video的部分的时候
             if (origin.index == 1) {
                 let gaga_video_timer = setTimeout(() => {
-                    let gaga_video = document.querySelector('#gaga-video-words');
+                    let gaga_video = document.querySelector('#baby-video-words');
                     gaga_video.classList.remove('show-res');
                     gaga_video.classList.remove(video_in_animation);
                     gaga_video.classList.add('hide-res');
@@ -201,11 +456,8 @@ window.onload = function () {
                     clearTimeout(pic_box_animation_timer);
                 }, 700)
             }
-
         }
-
     });
-
     // owl 轮播图
     let owl_instance = $('.owl-carousel');
     owl_instance.owlCarousel({
@@ -214,12 +466,8 @@ window.onload = function () {
         loop: true,
         // 幻灯片间距
         margin: 100,
-        // 导航的图标
-        // nav: true,
-        // navText: ["<img src='imgs/owl/btn_pre.svg'/>", "<img src='imgs/owl/btn_next.svg'/>"],
         // 导航栏的点
         dots: true,
-
     })
     // 自定义 owl 的左右箭头点击事件
     $('.owl-btn-pre-cus').click(function () {
@@ -230,23 +478,26 @@ window.onload = function () {
     })
 
     // 计时器
-    function timerRunningMarchine() {
+    /* 
+        @knowEachTime 相识时间
+        @knowEachTime 相爱时间
+    */
+    function timerRunningMarchine(knowEachTime, loveEachTime) {
+        // 每次调用该函数先清理掉之前的计时器
+        clearInterval(runTimer);
         // 相识时间
-        let startDate = '2021/5/1 20:00:00';
+        let startDate = knowEachTime;
         let startTimeStamp = new Date(startDate).getTime();
-
         // 相爱时间
-        let startDate_love = '2021/12/10 23:34:00';
+        let startDate_love = loveEachTime;
         let startTimeStamp_love = new Date(startDate_love).getTime();
 
         runTimer = setInterval(() => {
-            // console.log('与你相识！！');
             // 获取当前时间
             let nowTime = new Date().getTime();
             // 相识时间戳(s)
             let disTime = nowTime - startTimeStamp;
 
-            // console.log('与你相爱！！');
             // 相爱时间戳(s)
             let disTime_love = nowTime - startTimeStamp_love;
 
@@ -284,41 +535,29 @@ window.onload = function () {
                 seconds
             }
         }
-
     }
     // 启动计时器
-    timerRunningMarchine();
+    timerRunningMarchine(defaultKnowEachTime, defaultLoveEachTime);
 
     // 进入相册
     let goAlbum = document.querySelector('#go-album');
     goAlbum.onclick = function () {
         location.href = 'album.html';
     }
-
-    console.log('亲爱的嘎嘎：');
-    console.log(
-        '   我这人吧，钢铁直男一个，说不出啥肉麻的话，但是我记得你说过的每一句话（是吗？这话就扯了，重要的话我还是都记得的）。你喜欢逛街、打游戏、探店、练字、学习（好吧，学习这项是我编的）。我不怎么会说土味情话，但希望我的行动能让你感受到我对你的爱，虽然我们相隔甚远，但是我们就是相隔甚远，这点确实挺难受的。'
-    );
-    console.log(
-        '   其实这个网站，我想的是追到你了，在发给你看的，然后可以用来记录我们的点滴和一些照片的。但是你说到你不太想异地，其实我也不喜欢异地，谁愿意与自己的爱人相隔甚远呢？但是网站我之前已经开发了一部分，我不太想做事只做一半，所以我还是把这个网站在这些天都弄完了，然后呢也放你的照片。希望没有把你放丑吧。嘻嘻'
-    );
-    console.log(
-        '   还有一点就是，嘎嘎，其实不怕你说我土，我一直是抱着结婚的心态去谈恋爱的，所以你谈到的距离问题，如果两个人真的走到最后，那现在的短暂分离，只是为了更好的相遇。giao，我又开始了。所以我还是想向你告白，未来我会用行动去爱你。'
-    );
-    console.log('\n');
-    console.log('\n');
-    console.log('送你一个小心心：');
-    console.log('    ❤️ ❤️           ❤️ ❤️ ');
-    console.log('  ❤️ ❤️ ❤️ ❤️       ❤️ ❤️ ❤️ ❤️');
-    console.log('❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️');
-    console.log('❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️');
-    console.log('❤️ ❤️ ❤️ l o v e y o u ❤️ ❤️ ❤️');
-    console.log('  ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️');
-    console.log('   ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️');
-    console.log('     ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️');
-    console.log('       ❤️ ❤️ ❤️ ❤️ ❤️ ❤️');
-    console.log('         ❤️ ❤️ ❤️ ❤️');
-    console.log('           ❤️ ❤️');
-    console.log('            ❤️');
-
 }
+
+
+// 秘密表白内容
+// console.log('送你一个小心心：');
+// console.log('    ❤️ ❤️           ❤️ ❤️ ');
+// console.log('  ❤️ ❤️ ❤️ ❤️       ❤️ ❤️ ❤️ ❤️');
+// console.log('❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️');
+// console.log('❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️');
+// console.log('❤️ ❤️ ❤️ l o v e y o u ❤️ ❤️ ❤️');
+// console.log('  ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️');
+// console.log('   ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️');
+// console.log('     ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️');
+// console.log('       ❤️ ❤️ ❤️ ❤️ ❤️ ❤️');
+// console.log('         ❤️ ❤️ ❤️ ❤️');
+// console.log('           ❤️ ❤️');
+// console.log('            ❤️');

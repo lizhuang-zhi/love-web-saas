@@ -11,6 +11,7 @@ export default {
         search: "搜索",
         username: "用户名",
         password: "密码",
+        gender: "性别",
         email: "邮箱",
         code: "验证码",
         back: "返回",

@@ -8,6 +8,7 @@ export default [
         meta: {
             title: "routes.setting",
             hide: true,
+            requiresAuth: true,
         },
     },
 ];

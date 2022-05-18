@@ -1,6 +1,6 @@
 {
-  "name": "rho-admin",
-  "version": "0.0.0",
+  "name": "user-center",
+  "version": "1.0.0",
   "scripts": {
     "dev": "vite",
     "build": "vite build && vite build --mode production",
@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@cloudbase/js-sdk": "^1.7.2",
     "axios": "^0.24.0",
     "js-cookie": "^3.0.1",
     "remixicon": "^2.5.0",
@@ -20,7 +21,7 @@
     "@intlify/vite-plugin-vue-i18n": "^3.2.1",
     "@vitejs/plugin-vue": "^2.0.0",
     "naive-ui": "^2.23.1",
-    "vite": "^2.7.2",
+    "vite": "^2.9.9",
     "vue-router": "^4.0.12",
     "vuex": "^4.0.2"
   }

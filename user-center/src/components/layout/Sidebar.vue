@@ -70,7 +70,7 @@ import {
 import Menu from "./Menu.vue";
 import { NScrollbar, NAutoComplete, NModal, NSkeleton } from "naive-ui";
 import { APP_TITLE } from "@/settings.js";
-import APP_LOGO from "@/assets/logo.png";
+import APP_LOGO from "@/assets/logo.svg";
 import { useI18n } from "vue-i18n";
 import routes from "@/router/routes";
 import { filterMenus } from "@/utils/utils";
@@ -89,7 +89,6 @@ export default defineComponent({
         const MINI_WIDTH = 50;
         const menus = filterMenus(routes, Store.state.user.role);
         const { t } = useI18n();
-
         const width = ref(MINI_WIDTH);
         const resizing = ref(false);
         const cssSidebar = computed(() => {

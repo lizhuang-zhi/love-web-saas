@@ -111,6 +111,18 @@ body {
 .container-main .top-tit .icon-logo img:hover{
     background: #eee;
 }
+.container-main .top-tit .icon-back {
+    position: absolute;
+    right: 90px;
+    margin-top: 5px;
+}
+.container-main .top-tit .icon-back img{
+    border-radius: 50%;
+    padding: 10px;
+}
+.container-main .top-tit .icon-back img:hover{
+    background: #eee;
+}
 
 
 /* *****************************照片内容************************ */
@@ -134,24 +146,6 @@ body {
     flex-direction: column;
 
     margin: 0 20px 20px 0;
-}
-
-/* 加号 */
-.container-main .photo-list-box .main-box .item-pic .up-img-add {
-    width: 170px;
-    height: 170px;
-    border-radius: 8px;
-    border: 1px solid #dadce0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.container-main .photo-list-box .main-box .item-pic .up-img-add .pic-img-add {
-    width: 20px;
-    height: 20px;
-    border-radius: 8px;
 }
 
 /* 非加号 */

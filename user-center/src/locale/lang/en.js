@@ -11,6 +11,7 @@ export default {
         search: "Search",
         username: "Username",
         password: "Password",
+        gender: "Gender",
         email: "Email",
         code: "Code",
         back: "Return Back",
