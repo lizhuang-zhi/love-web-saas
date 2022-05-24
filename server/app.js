@@ -20,8 +20,8 @@ const fs = require("fs");
 const cloudBase = tcb.init({
     env: "mrkleo-blog-2gw4gee4088deaca",
     region: "ap-guangzhou",
-    secretId: "AKIDHNFrENHwLWR7Yx98sNcfVBg0CJOPLCzr",
-    secretKey: "z9Z3XxONF5wofQ3ayEOSPH0eCe9Zt5CF"
+    secretId: "",   // 输入你自己的
+    secretKey: ""   // 输入你自己的
 });
 
 var cors = require('koa2-cors');
@@ -88,7 +88,7 @@ const userLogin = async ctx => {
     let userInfo = {
         ...res["_doc"]
     };
-    delete userInfo.password;
+    // delete userInfo.password;
     // 返回token
     ctx.body = {
         message: '登录成功',
@@ -281,7 +281,7 @@ const userInfoUpdate = async ctx => {
         body = ctx.request.body;
     }
     // 查询是否存在该用户
-    let isExistUser = await mongoose.checkUser(body.profileId).catch(err => {
+    let isExistUser = await mongoose.checkUser(body.userId).catch(err => {
         // 找到异常, 但是不会直接让程序死掉
         console.log(err);
     });
@@ -1386,6 +1386,76 @@ const updateInfo8 = async (ctx, next) => {
     }
 }
 
+// 创建其他细节设置页信息
+const createInfoDetails = async (ctx, next) => {
+    let judge = await beforeRequestOtherApi(ctx, next);
+    if (!judge) {
+        ctx.body = {
+            message: '用户未认证',
+            status: 401
+        }
+        return
+    }
+    let obj = ctx.request.body;
+    let result = await mongoose.createDetailsPageInfo(obj);
+    if (!result) {
+        ctx.body = {
+            message: '保存失败',
+            status: 500
+        }
+        return
+    }
+    ctx.body = {
+        message: '保存成功',
+        status: 200
+    }
+}
+// 获取其他细节设置页信息
+const getInfoDetails = async ctx => {
+    let userId = ctx.request.body.userId;
+    if (!userId) {
+        ctx.body = {
+            message: "userId参数没有携带",
+            status: 404
+        }
+        return;
+    }
+    let result = await mongoose.getDetailsPageInfo(userId);
+    ctx.body = {
+        message: "获取成功",
+        status: 200,
+        data: result ? result : null
+    }
+}
+// 修改其他细节设置页信息
+const updateInfoDetails = async (ctx, next) => {
+    let judge = await beforeRequestOtherApi(ctx, next);
+    if (!judge) {
+        ctx.body = {
+            message: '用户未认证',
+            status: 401
+        }
+        return
+    }
+    let userId = ctx.request.body.userId;
+    let headTitle = ctx.request.body.headTitle;
+    try {
+        await mongoose.updateDetailsPageInfo(userId, {
+            headTitle
+        });
+    } catch (error) {
+        ctx.body = {
+            message: "修改失败",
+            status: 500
+        }
+        return; 
+    }
+    ctx.body = {
+        message: "修改成功",
+        status: 200
+    }
+}
+
 
 
 // 执行涉及增删改其他接口前,判断用户权限
@@ -1479,5 +1549,9 @@ app.use(route.post('/createinfo/8', createInfo8));
 app.use(route.post('/getinfo/8', getInfo8));
 app.use(route.post('/updateinfo/8', updateInfo8));
 
+// 细节设置页面
+app.use(route.post('/createinfo/details', createInfoDetails));
+app.use(route.post('/getinfo/details', getInfoDetails));
+app.use(route.post('/updateinfo/details', updateInfoDetails));
 
 app.listen(5001);

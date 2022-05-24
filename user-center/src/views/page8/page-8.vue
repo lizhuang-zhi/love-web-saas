@@ -26,7 +26,13 @@
           heightValue="395"
           widthValue="600"
         />
-        <n-button style="margin: 30px 0 0 20px" strong secondary type="primary" @click="saveContent">
+        <n-button
+          style="margin: 30px 0 0 20px"
+          strong
+          secondary
+          type="primary"
+          @click="saveContent"
+        >
           {{ btnText }}
         </n-button>
       </n-space>
@@ -209,7 +215,11 @@ export default defineComponent({
         });
       }
       console.log(result);
-      if (result.status == 200) {
+      // 如果请求返回超时
+      if (!result) {
+        notify("success", "文件上传成功");
+        console.log('服务器读取文件超时, 这里只是在前端显示成功, 服务器还在异步读取');
+      }else if(result.status == 200) {
         notify("success", result.message);
       }
     };

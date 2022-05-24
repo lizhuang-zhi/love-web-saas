@@ -17,8 +17,8 @@ export function setUserToken(user) {
 }
 
 export function deleteUserToken() {
-    Cookie.remove(TOKEN_ID);
-    Cookie.remove(TOKEN_ROLE);
+    // 清理当前用户的所有token
+    localStorage.clear();
 }
 
 export function getCookie(key) {

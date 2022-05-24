@@ -18,15 +18,21 @@ const mutations = {
     },
     // 注销
     [USER_LOGOUT]: (state) => {
-        state = Object.assign(state, initState());
         deleteUserToken();
+        state.username = "";
+        state.email = "";
+        state.password = "";
+        state.gender = "";
+        state.userid = "";
+        state.token = "";
     },
     // 用户信息初始化
     [USER_INIT]: (state, user) => {
-        // state = Object.assign(state, user);
         state.username = user.username;
         state.email = user.email;
         state.userid = user._id;
+        state.password = user.password;
+        state.gender = user.gender;
         state.token = localStorage.getItem("token");
     },
 };
@@ -63,6 +69,8 @@ export default {
             email: "",
             userid: "",
             token: "",
+            password: "",
+            gender: "",
             
             avatar: "",
             role: "",

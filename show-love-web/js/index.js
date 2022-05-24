@@ -273,6 +273,7 @@ async function updateDomContent8() {
 
 
 window.onload = async function () {
+
     // 设置第一页数据
     await updateDomContent1();
 

@@ -22,13 +22,14 @@ export default {
     },
 
     routes: {
-        dashboard: "Dashboard",
+        dashboard: "Web Introduce",
         home: "Home",
         setting: "Settings",
         user: "User",
         messages: "Messages",
         menu: "Menu",
-        page: "Page"
+        page: "Page",
+        details: "Details",
     },
 
     settings: {

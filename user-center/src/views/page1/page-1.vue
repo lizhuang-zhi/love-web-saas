@@ -58,7 +58,7 @@ import {
   useNotification,
   NPopover,
 } from "naive-ui";
-import { GetInfo1, UpdateInfo1, CreateInfo1 } from "@/api/firstPage";
+import { GetInfo, UpdateInfo, CreateInfo } from "@/api/firstPage";
 import { useStore } from "vuex";
 import useReduceFn from "@/hooks/useReduceFn";
 import HelpButton from "@/components/HelpButton.vue";
@@ -88,13 +88,13 @@ export default defineComponent({
     const notify = (type, message) => {
       notification[type]({
         content: message,
-        duration: 1300,
+        duration: 1500,
       });
     };
 
     onMounted(async () => {
       // 从数据库获取文本初始值
-      let result = await GetInfo1({
+      let result = await GetInfo({
         userId: Store.state.user.userid,
       });
       console.log(result);
@@ -128,7 +128,7 @@ export default defineComponent({
       let result = null;
       if (btnText.value == "保存设置") {
         // 发送请求, 保存第一页设置内容
-        result = await CreateInfo1({
+        result = await CreateInfo({
           userId: Store.state.user.userid,
           themeContent: themeContent.value,
           description: description.value,
@@ -136,7 +136,7 @@ export default defineComponent({
         });
         btnText.value = "修改设置";
       } else if (btnText.value == "修改设置") {
-        result = await UpdateInfo1({
+        result = await UpdateInfo({
           userId: Store.state.user.userid,
           themeContent: themeContent.value,
           description: description.value,

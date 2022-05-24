@@ -71,6 +71,10 @@ let EighthPageSchema = new mongoose.Schema({
     userId: String,
     fileArr: Array
 })
+let DetailsPageSchema = new mongoose.Schema({
+    userId: String,
+    headTitle: String,
+})
 
 // 2. 操作集合 “模型”去操作集合  => 返回集合
 let User = conn.model('User', UserSchema)
@@ -89,6 +93,7 @@ let SixthPage = conn.model('SixthPage', SixthPageSchema)
 // 第七页设置
 let SeventhPage = conn.model('SeventhPage', SeventhPageSchema)
 let EighthPage = conn.model('EighthPage', EighthPageSchema)
+let DetailsPage = conn.model('DetailsPage', DetailsPageSchema)
 
 // 验证码
 function createEmailCode(email, code, expire) {
@@ -376,6 +381,28 @@ function updateEighthPageInfo(userId, fileArr) {
     })
 }
 
+// 其他设置
+function getDetailsPageInfo(user_id) {
+    return DetailsPage.findOne({
+        userId: user_id
+    })
+}
+
+function createDetailsPageInfo(obj) {
+    return DetailsPage.create({
+        userId: obj.userId,
+        headTitle: obj.headTitle
+    })
+}
+
+function updateDetailsPageInfo(userId, obj) {
+    return DetailsPage.updateOne({
+        userId: userId,
+    }, {
+        headTitle: obj.headTitle
+    })
+}
+
 module.exports = {
     createEmailCode,
     updateEmailCode,
@@ -409,5 +436,8 @@ module.exports = {
     createEighthPageInfo,
     getFourthPageInfo,
     createFourthPageInfo,
-    updateFourthPageInfo
+    updateFourthPageInfo,
+    getDetailsPageInfo,
+    updateDetailsPageInfo,
+    createDetailsPageInfo
 }

@@ -28,12 +28,8 @@
                         to="/user"
                         class="i-btn i-user"
                     >
-                        <!-- <n-avatar
-                            :src="user.avatar"
-                            class="i-avatar"
-                        ></n-avatar> -->
                         <span class="i-avatar">
-                            {{ firstLetter(user.username) }}
+                            {{ user.username }}
                         </span>
                     </router-link>
 
@@ -78,17 +74,12 @@ export default defineComponent({
             Store.commit("settings/CHANGE_THEME");
         }
 
-        function firstLetter(name) {
-            return name.substr(0, 1);
-        }
-
         return {
             user,
             attrs,
             fullscreen,
             changeTheme,
             changeLocale,
-            firstLetter,
             t,
         };
     },
@@ -146,7 +137,7 @@ export default defineComponent({
     margin-left: 8px;
 }
 .i-avatar {
-    width: 28px;
+    padding: 0 25px;
     height: 28px;
     line-height: 28px;
     text-align: center;

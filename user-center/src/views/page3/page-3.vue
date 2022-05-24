@@ -246,8 +246,4 @@ h2 {
   padding: 80px 0 0;
   text-align: center;
 }
-#help-show-box {
-  width: 540px;
-  height: 365px;
-}
 </style>

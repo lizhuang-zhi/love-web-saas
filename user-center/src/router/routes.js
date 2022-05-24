@@ -13,6 +13,7 @@ import Page5 from "@/views/page5/route";
 import Page6 from "@/views/page6/route";
 import Page7 from "@/views/page7/route";
 import Page8 from "@/views/page8/route";
+import Details from "@/views/details/route";
 
 /**
  * ${param} meta:
@@ -43,8 +44,10 @@ export default [{
             ...Page6,
             ...Page7,
             ...Page8,
+            ...Details,
             ...User, 
-            ...Setting],
+            ...Setting
+        ],
     },
     {
         name: "Login",

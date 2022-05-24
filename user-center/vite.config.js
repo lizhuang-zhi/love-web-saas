@@ -13,7 +13,7 @@ ENV.VITE_BASE_URL = "";
 // 打包输出文件夹
 ENV.VITE_OUTPUT_DIR = "docs";
 // Server 配置
-ENV.VITE_BASE_API_HOST = "http://162.14.99.93:5001";
+ENV.VITE_BASE_API_HOST = "http://116.205.247.150";
 ENV.VITE_BASE_API_PATH = "/api";
 
 export default defineConfig({

@@ -5,7 +5,7 @@ import { request } from "@/utils/request";
  * @param {*} data
  * @returns
  */
-export function GetInfo1(data) {
+export function GetInfo(data) {
     return request({
         url: `/getinfo/1`,
         method: "post",
@@ -18,7 +18,7 @@ export function GetInfo1(data) {
  * @param {*} data
  * @returns
  */
- export function UpdateInfo1(data) {
+ export function UpdateInfo(data) {
     return request({
         url: `/updateinfo/1`,
         method: "post",
@@ -31,7 +31,7 @@ export function GetInfo1(data) {
  * @param {*} data
  * @returns
  */
- export function CreateInfo1(data) {
+ export function CreateInfo(data) {
     return request({
         url: `/createinfo/1`,
         method: "post",

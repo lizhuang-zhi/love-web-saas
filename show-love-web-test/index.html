@@ -2,26 +2,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>You和Me的网站</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="author" content="Alvaro Trigo Lopez" />
     <meta name="description" content="fullPage full-screen background videos." />
     <meta name="keywords" content="fullpage,jquery,demo,screen,fullscreen,video,full-screen" />
     <meta name="Resource-type" content="love web" />
     <link href="./imgs/love.svg" rel="shortcut icon">
 
-    <!-- <link rel="stylesheet" href="./css/owl.carousel.min.css">
-    <link rel="stylesheet" href="./css/owl.theme.default.min.css">
-    <link rel="stylesheet" type="text/css" href="./css/fullpage.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="./css/fullpage.css" />
     <link rel="stylesheet" href="./css/index.css">
     <link rel="stylesheet" href="./css/animation.css"> -->
 </head>
 
 <body>
-    <!-- 播放mp3 -->
-    <audio loop="loop" id="bgm">
-        <source src="./mp3/zhou.mp3" type="audio/ogg" />
-    </audio>
 
     <div id="fullpage">
         <!-- our web -->
@@ -40,8 +34,7 @@
 
         <!-- video -->
         <div class="section" id="section1">
-            <video class='myVid' id="video-2" loop muted data-autoplay>
-                <!-- 展示视频 -->
+            <video class='myVid' id="video-2" loop controls width="80%" height="70%">
                 <!-- <source src="http://6d72-mrkleo-blog-2gw4gee4088deaca-1308382458.tcb.qcloud.la/love-web-saas/6278dee0a9c257187bae26fc-2.mp4" type="video/mp4" id="baby-video"> -->
             </video>
             <div class="words hide-res" id='baby-video-words'>
@@ -51,8 +44,7 @@
 
         <!-- video -->
         <div class="section" id="section2">
-            <video class='myVid' id="video-3" loop muted data-autoplay>
-                <!-- 展示视频 -->
+            <video class='myVid' id="video-3" loop controls width="80%" height="70%">
                 <!-- <source src="imgs/zz_video.mov" type="video/mp4" id="zz-video"> -->
             </video>
             <div class="words hide-res" id="zz-video-words">
@@ -62,119 +54,137 @@
 
         <!-- 轮播图 -->
         <div class="section" id="section3">
-            <div class="owl-carousel owl-theme">
-                <div class="item item-1" id="rotation-1">
-                    <div class="left-part">
-                        <div class="top-line"></div>
-                        <div class="desc">
-                            <div>Darling的照片，本网站盗用了！</div>
-                            <div>Baby～</div>
+            <!-- 展示的每部分内容 -->
+            <div id="allswapImg">
+                <div class="swapImg">
+                    <div class="item item-1" id="rotation1">
+                        <div class="left-part">
+                            <div class="top-line"></div>
+                            <div class="desc">
+                                <div id="left-top-desc-1">Darling的照片，本网站盗用了！</div>
+                                <div id="left-bot-desc-1">Baby～</div>
+                            </div>
+                            <div class="title" id="left-title-1">Honey</div>
                         </div>
-                        <div class="title">Honey</div>
-                    </div>
-                    <div class="right-part">
-                        <div class="show-pic">
-                            <img src="./imgs/girl-2.jpg" class="pic">
-                            <div class="cont">
-                                <div class="desc-tit">Beautiful</div>
-                                <div class="desc-cont">
-                                    A smelly pig named xx, surnamed xx and xx (meditate three times)
+                        <div class="right-part">
+                            <div class="show-pic">
+                                <img src="./imgs/girl-2.jpg" class="pic" id="right-pic-1">
+                                <div class="cont">
+                                    <div class="desc-tit" id="right-title-1">Beautiful</div>
+                                    <div class="desc-cont" id="right-desc-1">
+                                        A smelly pig named xx, surnamed xx and xx (meditate three times)
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="item item-2" id="rotation-2">
-                    <div class="left-part">
-                        <div class="top-line"></div>
-                        <div class="desc">
-                            <div>Paly with my girl</div>
-                            <div>forever~</div>
+                <div class="swapImg">
+                    <div class="item item-2" id="rotation2">
+                        <div class="left-part">
+                            <div class="top-line"></div>
+                            <div class="desc">
+                                <div>Paly with my girl</div>
+                                <div>forever~</div>
+                            </div>
+                            <div class="title">一起游戏</div>
                         </div>
-                        <div class="title">一起游戏</div>
-                    </div>
-                    <div class="right-part">
-                        <div class="show-pic">
-                            <img src="./imgs/togother-1.jpg" class="pic">
-                            <div class="cont">
-                                <div class="desc-tit">Game</div>
-                                <div class="desc-cont">
-                                    Fighting game, hammer my baby
+                        <div class="right-part">
+                            <div class="show-pic">
+                                <img src="./imgs/togother-1.jpg" class="pic">
+                                <div class="cont">
+                                    <div class="desc-tit">Game</div>
+                                    <div class="desc-cont">
+                                        Fighting game, hammer my baby
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="item item-3" id="rotation-3">
-                    <div class="left-part">
-                        <div class="top-line"></div>
-                        <div class="desc">
-                            <div>怎么又是她？</div>
-                            <div>why？</div>
+                <div class="swapImg">
+                    <div class="item item-3" id="rotation3">
+                        <div class="left-part">
+                            <div class="top-line"></div>
+                            <div class="desc">
+                                <div id="left-top-desc-3">怎么又是她？</div>
+                                <div id="left-bot-desc-3">why？</div>
+                            </div>
+                            <div class="title" id="left-title-3">Honey</div>
                         </div>
-                        <div class="title">Honey</div>
-                    </div>
-                    <div class="right-part">
-                        <div class="show-pic">
-                            <img src="./imgs/girl-10.jpg" class="pic">
-                            <div class="cont">
-                                <div class="desc-tit">Cute</div>
-                                <div class="desc-cont">
-                                    Whatever you think, I just love
+                        <div class="right-part">
+                            <div class="show-pic">
+                                <img src="./imgs/girl-10.jpg" class="pic" id="right-pic-3">
+                                <div class="cont">
+                                    <div class="desc-tit" id="right-title-3">Cute</div>
+                                    <div class="desc-cont" id="right-desc-3">
+                                        Whatever you think, I just love
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="item item-4" id="rotation-4">
-                    <div class="left-part">
-                        <div class="top-line"></div>
-                        <div class="desc">
-                            <div>你喜欢周杰伦</div>
-                            <div>我喜欢你</div>
+                <div class="swapImg">
+                    <div class="item item-4" id="rotation4">
+                        <div class="left-part">
+                            <div class="top-line"></div>
+                            <div class="desc">
+                                <div>你喜欢周杰伦</div>
+                                <div>我喜欢你</div>
+                            </div>
+                            <div class="title">一起音乐</div>
                         </div>
-                        <div class="title">一起音乐</div>
-                    </div>
-                    <div class="right-part">
-                        <div class="show-pic">
-                            <img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h2acbb1l3sj20jg0czwfv.jpg" class="pic">
-                            <div class="cont">
-                                <div class="desc-tit">Listen Music</div>
-                                <div class="desc-cont">
-                                    Listen to our favorite music together
+                        <div class="right-part">
+                            <div class="show-pic">
+                                <img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h2acbb1l3sj20jg0czwfv.jpg"
+                                    class="pic">
+                                <div class="cont">
+                                    <div class="desc-tit">Listen Music</div>
+                                    <div class="desc-cont">
+                                        Listen to our favorite music together
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="item item-5" id="rotation-5">
-                    <div class="left-part">
-                        <div class="top-line"></div>
-                        <div class="desc">
-                            <div>又是她！又是她！又是她！</div>
-                            <div>又是这个臭宝～</div>
+                <div class="swapImg">
+                    <div class="item item-5" id="rotation5">
+                        <div class="left-part">
+                            <div class="top-line"></div>
+                            <div class="desc">
+                                <div>又是她！又是她！又是她！</div>
+                                <div>又是这个臭宝～</div>
+                            </div>
+                            <div class="title">臭宝</div>
                         </div>
-                        <div class="title">臭宝</div>
-                    </div>
-                    <div class="right-part">
-                        <div class="show-pic">
-                            <img src="./imgs/girl-h-4.jpg" class="pic">
-                            <div class="cont">
-                                <div class="desc-tit">Classy</div>
-                                <div class="desc-cont">This is the temperament of learning Dharma</div>
+                        <div class="right-part">
+                            <div class="show-pic">
+                                <img src="./imgs/girl-h-4.jpg" class="pic">
+                                <div class="cont">
+                                    <div class="desc-tit">Classy</div>
+                                    <div class="desc-cont">This is the temperament of learning Dharma</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- 自定义左右按钮 -->
-            <div class="nav-btn-custom">
-                <div class="owl-btn-pre-cus">
-                    <img src="./imgs/owl/btn_pre.svg" alt="" srcset="">
-                </div>
-                <div class="owl-btn-next-cus">
-                    <img src="./imgs/owl/btn_next.svg" alt="" srcset="">
-                </div>
+            <!-- 左右按钮 -->
+            <div class="btn btnLeft">
+                <svg t="1653298460775" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5685" width="32" height="32"><path d="M671.968176 911.99957c-12.287381 0-24.576482-4.67206-33.951566-14.047144L286.048434 545.984249c-18.751888-18.719204-18.751888-49.12028 0-67.872168L638.016611 126.111222c18.751888-18.751888 49.12028-18.751888 67.872168 0 18.751888 18.719204 18.751888 49.12028 0 67.872168l-318.016611 318.047574L705.888778 830.047574c18.751888 18.751888 18.751888 49.12028 0 67.872168C696.544658 907.32751 684.255557 911.99957 671.968176 911.99957z" p-id="5686" fill="#707070"></path></svg>
+            </div> 
+            <div class="btn btnRight">
+                <svg t="1653298554713" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6527" width="32" height="32"><path d="M761.055557 532.128047c0.512619-0.992555 1.343475-1.823411 1.792447-2.848649 8.800538-18.304636 5.919204-40.703346-9.664077-55.424808L399.935923 139.743798c-19.264507-18.208305-49.631179-17.344765-67.872168 1.888778-18.208305 19.264507-17.375729 49.631179 1.888778 67.872168l316.960409 299.839269L335.199677 813.631716c-19.071845 18.399247-19.648112 48.767639-1.247144 67.872168 9.407768 9.791372 21.984142 14.688778 34.560516 14.688778 12.000108 0 24.000215-4.479398 33.311652-13.439914l350.048434-337.375729c0.672598-0.672598 0.927187-1.599785 1.599785-2.303346 0.512619-0.479935 1.056202-0.832576 1.567101-1.343475C757.759656 538.879828 759.199462 535.391265 761.055557 532.128047z" p-id="6528" fill="#5D5D5D"></path></svg>
+            </div>
+            <!-- 下方的标点 -->
+            <div id="tabs">
+                <div class="tab bg"></div>
+                <div class="tab"></div>
+                <div class="tab"></div>
+                <div class="tab"></div>
+                <div class="tab"></div>
             </div>
         </div>
 
@@ -230,22 +240,28 @@
 
             <div class="photo-list">
                 <div class="pic-box pic-box-1 hide-res">
-                    <img class='photo-item pic-top-left' src="https://tva1.sinaimg.cn/large/e6c9d24ely1h2bq12b19qj20u019078l.jpg" alt="" srcset="">
+                    <img class='photo-item pic-top-left'
+                        src="https://tva1.sinaimg.cn/large/e6c9d24ely1h2bq12b19qj20u019078l.jpg" alt="" srcset="">
                 </div>
                 <div class="pic-box pic-box-2 hide-res">
-                    <img class='photo-item pic-top-center' src="https://tva1.sinaimg.cn/large/e6c9d24ely1h2bq4ebpfhj20u012941x.jpg" alt="" srcset="">
+                    <img class='photo-item pic-top-center'
+                        src="https://tva1.sinaimg.cn/large/e6c9d24ely1h2bq4ebpfhj20u012941x.jpg" alt="" srcset="">
                 </div>
                 <div class="pic-box pic-box-3 hide-res">
-                    <img class='photo-item pic-top-right' src="https://tva1.sinaimg.cn/large/e6c9d24ely1h2ack43u3mj21900u0ad0.jpg" alt="" srcset="">
+                    <img class='photo-item pic-top-right'
+                        src="https://tva1.sinaimg.cn/large/e6c9d24ely1h2ack43u3mj21900u0ad0.jpg" alt="" srcset="">
                 </div>
                 <div class="pic-box pic-box-4 hide-res">
-                    <img class='photo-item pic-bot-left' src="https://tva1.sinaimg.cn/large/e6c9d24ely1h2bpzddtooj21900u0juk.jpg" alt="" srcset="">
+                    <img class='photo-item pic-bot-left'
+                        src="https://tva1.sinaimg.cn/large/e6c9d24ely1h2bpzddtooj21900u0juk.jpg" alt="" srcset="">
                 </div>
                 <div class="pic-box pic-box-5 hide-res">
-                    <img class='photo-item pic-bot-center' src="https://tva1.sinaimg.cn/large/e6c9d24egy1h2bpt40pehj219l0u0gp5.jpg" alt="" srcset="">
+                    <img class='photo-item pic-bot-center'
+                        src="https://tva1.sinaimg.cn/large/e6c9d24egy1h2bpt40pehj219l0u0gp5.jpg" alt="" srcset="">
                 </div>
                 <div class="pic-box pic-box-6 hide-res">
-                    <img class='photo-item pic-bot-right' src="https://tva1.sinaimg.cn/large/e6c9d24ely1h2bpwtx1wlj20u0190djd.jpg" alt="" srcset="">
+                    <img class='photo-item pic-bot-right'
+                        src="https://tva1.sinaimg.cn/large/e6c9d24ely1h2bpwtx1wlj20u0190djd.jpg" alt="" srcset="">
                 </div>
             </div>
 
@@ -310,9 +326,10 @@
 
     <!-- 顺序很重要 -->
     <!-- <script type="text/javascript" src="./js/jquery.min.js"></script>
-    <script type="text/javascript" src="./js/owl.carousel.min.js"></script>
     <script src="./js/axios.min.js"></script>
-    <script type="text/javascript" src="./js/index.js"></script> -->
+    <script type="text/javascript" src="./js/index.js"></script>
+    <script type="text/javascript" src="./js/carousel.js"></script> -->
+
     <script type="text/javascript" src="./js/fullpage.js"></script>
 
 </body>

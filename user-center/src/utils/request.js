@@ -4,7 +4,7 @@ import {API_BASE_URL} from "@/settings.js"
 //全局配置
 axios.defaults.baseURL = API_BASE_URL;
 // 设置请求超时时间
-axios.defaults.timeout = 10000
+axios.defaults.timeout = 20000
 
 export function request(config) {
     const instace = axios.create({})

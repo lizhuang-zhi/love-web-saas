@@ -65,15 +65,16 @@ export function UserLogin(data) {
 }
 
 /**
- * 注销
+ * 修改用户信息
  * @returns
  */
-// export function UserLogout() {
-//     return request({
-//         url: `logout`,
-//         method: "post",
-//     });
-// }
+export function UpdateUserInfo(data) {
+    return request({
+        url: `updateuserinfo`,
+        method: "post",
+        data
+    });
+}
 
 
 

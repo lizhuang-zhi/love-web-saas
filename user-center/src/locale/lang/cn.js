@@ -3,7 +3,7 @@ export default {
         hi: "你好",
         welcome: "欢迎",
         sign_in: "登录",
-        sign_out: "注销",
+        sign_out: "登出",
         sign_up: "注册",
         confirm: "确认",
         cancel: "取消",
@@ -22,13 +22,14 @@ export default {
     },
 
     routes: {
-        dashboard: "仪表盘",
+        dashboard: "网站介绍",
         home: "首页",
         setting: "设置",
         user: "用户中心",
         messages: "消息中心",
         menu: "菜单",
-        page: "页面"
+        page: "页面",
+        details: "其他设置"
     },
 
     settings: {
