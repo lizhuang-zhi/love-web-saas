@@ -1,51 +1,123 @@
 const path = require('path');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+const {
+  CleanWebpackPlugin
+} = require('clean-webpack-plugin');
+// 提取CSS为单独文件
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const webpack = require('webpack');
 
 module.exports = {
   // 入口文件
-  entry: './src/index.js',
+  entry: {
+    index: [
+      path.resolve(__dirname, "js/index.js"),
+      path.resolve(__dirname, "js/carousel.js"),
+    ],
+    login: path.resolve(__dirname, "js/login.js"),
+    album: path.resolve(__dirname, "js/album.js"),
+  },
   // 输出
   output: {
     // 输出文件名
-    filename: 'bundle.js',
-    /* 
-      输出的路径
-      __dirname 是nodejs的变量，指当前文件目录的绝对路径
-    */
+    filename: "js/[name].[chunkhash:8].js",
     path: path.resolve(__dirname, 'dist')
   },
-  // loader配置: 帮助webpack解析翻译它不能识别的模块
   module: {
-    rules: [
-      {
+    rules: [{
         // 匹配哪些文件
         test: /\.css$/,
         // 使用哪些loader处理
-        use: [   // ** 执行顺序从下到上!!! **
-          { loader: 'style-loader' },
-          { loader: 'css-loader' },
+        use: [ // ** 执行顺序从下到上!!! **
+          // 这个loader取代style-loader。作用：提取js中的css成单独文件
+          MiniCssExtractPlugin.loader,
+          // 将css文件整合到js文件中
+          'css-loader'
         ]
       },
+      // webpack5可以不使用loader来打包图片
       {
-        test: /\.scss$/,
-        use: [   // ** 执行顺序从下到上!!! **
-          {
-            loader: "style-loader" // 创建style标签, 将 css-loader 转化在js中的样式资源插入, 添加到head中生效
-          }, 
-          {
-            loader: "css-loader" // 将 CSS 转化成 CommonJS 模块, 加载到js中, 里面内容是样式字符串
-          }, 
-          {
-            loader: "sass-loader" // 将 Sass 编译成 CSS (注意这里需要下 sass-loader 和 sass 两个包)
-          }
-        ]
-      }
+        test: /\.(png|jpe?g|svg|gif)$/i,
+        type: 'asset',
+        generator: {
+          filename: 'imgs/[hash:20][ext]'
+        }
+      },
+      // 处理在html中引入图片
+      {
+        test: /\.(htm|html)$/,
+        exclude: /node_modules/,
+        use: 'html-withimg-loader',
+      },
     ],
   },
   // 插件配置
   plugins: [
-
+    new CleanWebpackPlugin(),
+    // index页面
+    new HtmlWebpackPlugin({
+      filename: "index.html",
+      template: path.resolve(__dirname, "index.html"),
+      // 配置对应模块的js
+      chunks: ["index"],
+      inject: true,
+      minify: {
+        html5: true,
+        minifyCSS: true,
+        minifyJS: true,
+        // 移除空格
+        collapseWhitespace: true,
+        // 移除注释
+        removeComments: true,
+        preserveLineBreaks: false
+      }
+    }),
+    // login页面
+    new HtmlWebpackPlugin({
+      filename: "login.html",
+      template: path.resolve(__dirname, "login.html"),
+      chunks: ["login"],
+      inject: true,
+      minify: {
+        html5: true,
+        minifyCSS: true,
+        minifyJS: true,
+        // 移除空格
+        collapseWhitespace: true,
+        // 移除注释
+        removeComments: true,
+        preserveLineBreaks: false
+      }
+    }),
+    // album页面
+    new HtmlWebpackPlugin({
+      filename: "album.html",
+      template: path.resolve(__dirname, "album.html"),
+      chunks: ["album"],
+      inject: true,
+      minify: {
+        html5: true,
+        minifyCSS: true,
+        minifyJS: true,
+        // 移除空格
+        collapseWhitespace: true,
+        // 移除注释
+        removeComments: true,
+        preserveLineBreaks: false
+      }
+    }),
+    // 使用MiniCssExtractPlugin插件
+    new MiniCssExtractPlugin({
+      filename: './css/[name].[contenthash].css',
+      chunkFilename: './css/[name].[contenthash].css',
+    }),
+    // 引入第三方库
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+      'window.jQuery': 'jquery',
+    }),
   ],
-  // 配置环境
-  mode: 'development'
-
+  // 配置环境, 压缩js
+  mode: 'production'
 }

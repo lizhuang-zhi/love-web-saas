@@ -12,7 +12,7 @@
         :default-file-list="FileList"
         list-type="image-card"
         max="15"
-        accept=".jpg,.jpeg,.png"
+        accept=".jpg,.jpeg,.png,.webp"
         @finish="handleFinish"
         @before-upload="beforeUpload"
         @remove="removeFile"

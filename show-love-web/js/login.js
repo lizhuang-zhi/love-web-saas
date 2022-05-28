@@ -1,3 +1,7 @@
+import '../css/login.css';
+import axios from 'axios';
+
+
 window.onload = function () {
     // 输入不完整提示
     const inputError = "用户名或账户未输入, 请检查";
@@ -8,7 +12,7 @@ window.onload = function () {
 
     // axios 实例
     const instance = axios.create({
-        baseURL: 'http://162.14.99.93:5001',
+        baseURL: 'http://116.205.247.150',
         // baseURL: 'http://127.0.0.1:5001',
         timeout: 4000
     });

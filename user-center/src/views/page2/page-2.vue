@@ -159,9 +159,9 @@ export default defineComponent({
 
     // 文件上传前的限制
     const beforeUpload = (data) => {
-      // 4194304bit == 4MB
-      if (data.file.file?.size >= 4194304) {
-        message.error("限制视频大小为4MB以内，建议剪辑后上传, 这样会小一些");
+      // 5242880bit == 5MB
+      if (data.file.file?.size >= 5242880) {
+        message.error("限制视频大小为5MB以内，建议剪辑后上传, 这样会小一些");
         return false;
       }
       return true;

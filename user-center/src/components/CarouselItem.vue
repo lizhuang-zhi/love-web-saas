@@ -38,7 +38,7 @@
           :default-file-list="previewFileList"
           list-type="image-card"
           max="1"
-          accept=".jpg,.jpeg,.png"
+          accept=".jpg,.jpeg,.png,.webp"
           @before-upload="beforeUpload"
           @remove="removeSingleFile"
           @finish="handleFinish"

@@ -1,6 +1,12 @@
+import '../css/album.css'
+import '../css/album_small.css'
+
+import axios from 'axios';
+
+
 // axios 实例
 const instance = axios.create({
-    baseURL: 'http://162.14.99.93:5001',
+    baseURL: 'http://116.205.247.150',
     // baseURL: 'http://127.0.0.1:5001',
     timeout: 4000
 });
@@ -40,11 +46,36 @@ async function updateAlbum() {
         let mainBox = document.querySelector(".main-box");
         mainBox.innerHTML = "";
         // 重新从数据库添加照片
-        for(let i = 0; i < fileArr.length; i++) {
+        for (let i = 0; i < fileArr.length; i++) {
             let url = fileArr[i].url;
             let newNode = createDomNode(url);
             mainBox.appendChild(newNode);
         }
+    }
+}
+/* 
+    请求其他设置数据
+*/
+async function updateOtherSetting() {
+    let userInfo = checkStorageInfo();
+    if (!userInfo) {
+        return;
+    }
+    // 发起post请求
+    let result = await instance({
+        method: 'post',
+        url: '/getInfo/details',
+        data: {
+            userId: userInfo._id
+        }
+    });
+    console.log(result);
+    // 获取信息
+    let getInfo = result.data.data;
+    if (getInfo) {
+        // 修改网站标题头
+        let head = document.head;
+        head.children[0].innerText = getInfo.headTitle;
     }
 }
 
@@ -76,16 +107,20 @@ function createDomNode(picUrl, picName = "我们的回忆", picDesc = "共同的
 window.onload = async function () {
     // 返回按钮
     let backBtn = document.querySelector('#back-to-index');
-    backBtn.onclick = function() {
+    backBtn.onclick = function () {
         window.history.back();
     }
-
     // 加载动画
     let load = document.querySelector('.loading');
     let container_main = document.querySelector('.container-main');
 
     // 同步请求相册数据
-    await updateAlbum();
+    let res1 = await updateAlbum();
+    console.log(res1);
+    // 同步其他设置
+    let res2 = await updateOtherSetting();
+    console.log(res2);
+
 
     // loading加载完毕
     load.classList.remove('loading');

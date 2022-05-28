@@ -1,3 +1,9 @@
+import fullpage from 'fullpage.js'
+import '../css/fullpage.css';
+import '../css/index.css';
+import '../css/animation.css';
+import axios from 'axios';
+
 // 倒计时 runTimer 
 let runTimer = null;
 // 总结部分的字体添加动效果
@@ -13,7 +19,7 @@ let defaultLoveEachTime = 0;
 
 // axios 实例
 const instance = axios.create({
-    baseURL: 'http://162.14.99.93:5001',
+    baseURL: 'http://116.205.247.150',
     // baseURL: 'http://127.0.0.1:5001',
     timeout: 4000
 });
@@ -28,7 +34,7 @@ function checkStorageInfo() {
 }
 
 /* 
-    修改第五页内容 - 相识实践
+    获取第五页内容 - 相识实践
 */
 function updateDomContent5(userInfo) {
     // 发起post请求
@@ -42,7 +48,7 @@ function updateDomContent5(userInfo) {
 }
 
 /* 
-    修改第七页内容 - 相爱时间
+    获取第七页内容 - 相爱时间
 */
 function updateDomContent7(userInfo) {
     // 发起post请求
@@ -54,8 +60,22 @@ function updateDomContent7(userInfo) {
         }
     });
 }
+
 /* 
-    修改第一页内容
+    获取其他设置
+*/
+function updateDomContentDetails(userInfo) {
+    // 发起post请求
+    return instance({
+        method: 'post',
+        url: '/getInfo/details',
+        data: {
+            userId: userInfo._id
+        }
+    });
+}
+/* 
+    修改第一页内容 + 其他设置
 */
 async function updateDomContent1() {
     let userInfo = checkStorageInfo();
@@ -70,7 +90,7 @@ async function updateDomContent1() {
             userId: userInfo._id
         }
     });
-    let result = await Promise.all([page1_request, updateDomContent5(userInfo), updateDomContent7(userInfo)]);
+    let result = await Promise.all([page1_request, updateDomContent5(userInfo), updateDomContent7(userInfo), updateDomContentDetails(userInfo)]);
     // 设置第一页信息
     let getFirstPageInfo = result[0].data.data;
     if (getFirstPageInfo) {
@@ -93,6 +113,13 @@ async function updateDomContent1() {
     let getSeventhPageInfo = result[2].data.data;
     if (getSeventhPageInfo) {
         defaultLoveEachTime = Number(getSeventhPageInfo.timeStamp);
+    }
+    // 其他设置
+    let getDetailsInfo = result[3].data.data;
+    if (getDetailsInfo) {
+        // 修改网站标题头
+        let head = document.head;
+        head.children[0].innerText = getDetailsInfo.headTitle;
     }
 }
 /* 
@@ -175,10 +202,12 @@ async function updateDomContent4() {
         // 获取数据集合
         let RotationMap = getInfo.RotationMap;
         if (RotationMap) {
+            // let owlPart = document.querySelector('.owl-stage');
             for (let i = 0; i < RotationMap.length; i++) {
                 // 获取数据
                 let data = RotationMap[i];
-                let item = document.querySelector(`#rotation-${i + 1}`);
+
+                let item = document.querySelector(`#rotation${i + 1}`)
                 // 设置左侧
                 let left = item.children[0];
                 let l_desc1 = left.children[1].children[0];
@@ -271,9 +300,73 @@ async function updateDomContent8() {
     }
 }
 
+// 轮播图
+function createItemDom(index, leftTopDesc, leftBottomDesc, leftTitle, picUrl, rightTitle, rightDesc) {
+    let item = document.createElement('div');
+    item.classList.add('item');
+    item.classList.add(`item-${index}`);
+
+    // 左边部分
+    let leftPart = document.createElement('div');
+    leftPart.classList.add('left-part');
+
+    let topLine = document.createElement('div');
+    topLine.classList.add('top-line');
+
+    let leftDesc = document.createElement('div');
+    leftDesc.classList.add('desc');
+    let leftDescSon1 = document.createElement('div');
+    leftDescSon1.innerText = leftTopDesc;
+    let leftDescSon2 = document.createElement('div');
+    leftDescSon2.innerText = leftBottomDesc;
+    leftDesc.appendChild(leftDescSon1);
+    leftDesc.appendChild(leftDescSon2);
+
+    let leftTitleDiv = document.createElement('div');
+    leftTitleDiv.classList.add('title');
+    leftTitleDiv.innerText = leftTitle;
+
+    leftPart.appendChild(topLine);
+    leftPart.appendChild(leftDesc);
+    leftPart.appendChild(leftTitleDiv);
+
+    // 右边部分
+    let rightPart = document.createElement('div');
+    rightPart.classList.add('right-part');
+
+    let showPic = document.createElement('div');
+    showPic.classList.add('show-pic');
+
+    let rightImg = document.createElement('img');
+    rightImg.src = picUrl;
+    rightImg.classList.add('pic');
+
+    let rightCont = document.createElement('div');
+    rightCont.classList.add('cont');
+    let rightTitleDiv = document.createElement('div');
+    rightTitleDiv.classList.add('desc-tit');
+    rightTitleDiv.innerText = rightTitle;
+    let rightDescDiv = document.createElement('div');
+    rightDescDiv.classList.add('desc-cont');
+    rightDescDiv.innerText = rightDesc;
+
+    rightCont.appendChild(rightTitleDiv);
+    rightCont.appendChild(rightDescDiv);
+
+    showPic.appendChild(rightImg);
+    showPic.appendChild(rightCont);
+
+    rightPart.appendChild(showPic);
+
+    // 将左右两部分添加到item中
+    item.appendChild(leftPart);
+    item.appendChild(rightPart);
+
+    return item;
+}
+
 
 window.onload = async function () {
-
     // 设置第一页数据
     await updateDomContent1();
 
@@ -291,9 +384,6 @@ window.onload = async function () {
                 gaga_video.classList.remove('hide-res');
                 gaga_video.classList.add('show-res');
                 gaga_video.classList.add(video_in_animation);
-                // 打开bgm
-                let bgm = document.getElementById('bgm');
-                bgm.play();
             }
             // 到第二个video的部分的时候
             if (destination.index == 2) {
@@ -302,9 +392,6 @@ window.onload = async function () {
                 zz_video.classList.remove('hide-res');
                 zz_video.classList.add('show-res');
                 zz_video.classList.add(video_in_animation);
-                // 打开bgm
-                let bgm = document.getElementById('bgm');
-                bgm.play();
             }
             // 到轮播图的部分的时候
             if (destination.index == 3) {
@@ -396,9 +483,6 @@ window.onload = async function () {
                     gaga_video.classList.add('hide-res');
                     clearTimeout(gaga_video_timer);
                 }, 700)
-                // 打开bgm
-                let bgm = document.getElementById('bgm');
-                bgm.pause();
             }
 
             // 离开第二个video的部分的时候
@@ -410,9 +494,6 @@ window.onload = async function () {
                     zz_video.classList.add('hide-res');
                     clearTimeout(zz_video_timer);
                 }, 700)
-                // 打开bgm
-                let bgm = document.getElementById('bgm');
-                bgm.pause();
             }
 
             // 离开总结的部分的时候
@@ -459,24 +540,6 @@ window.onload = async function () {
             }
         }
     });
-    // owl 轮播图
-    let owl_instance = $('.owl-carousel');
-    owl_instance.owlCarousel({
-        // 每页显示一个
-        items: 1,
-        loop: true,
-        // 幻灯片间距
-        margin: 100,
-        // 导航栏的点
-        dots: true,
-    })
-    // 自定义 owl 的左右箭头点击事件
-    $('.owl-btn-pre-cus').click(function () {
-        owl_instance.trigger('prev.owl.carousel');
-    })
-    $('.owl-btn-next-cus').click(function () {
-        owl_instance.trigger('next.owl.carousel');
-    })
 
     // 计时器
     /* 
@@ -550,11 +613,11 @@ window.onload = async function () {
 
 // 秘密表白内容
 // console.log('送你一个小心心：');
-// console.log('    ❤️ ❤️           ❤️ ❤️ ');
+// console.log('    ❤️ ❤️             ❤️ ❤️ ');
 // console.log('  ❤️ ❤️ ❤️ ❤️       ❤️ ❤️ ❤️ ❤️');
-// console.log('❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️');
-// console.log('❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️');
-// console.log('❤️ ❤️ ❤️ l o v e y o u ❤️ ❤️ ❤️');
+// console.log('❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️');
+// console.log('❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️');
+// console.log('❤️ ❤️ ❤️ l o v e y o u ❤️ ❤️ ❤️ ❤️ ');
 // console.log('  ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️');
 // console.log('   ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️');
 // console.log('     ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️');

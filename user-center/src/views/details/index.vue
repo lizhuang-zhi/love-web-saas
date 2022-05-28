@@ -15,9 +15,9 @@
         </n-space>
         <n-space>
           <help-button
-            picSrc="https://tva1.sinaimg.cn/large/e6c9d24ely1h2botc85zij213k0l8wgc.jpg"
+            picSrc="https://tva1.sinaimg.cn/large/e6c9d24ely1h2jiu3hfwuj218h0u078e.jpg"
             place="left-start"
-            heightValue="365"
+            heightValue="445"
             widthValue="570"
           />
           <n-button strong secondary type="primary" @click="saveContent">
