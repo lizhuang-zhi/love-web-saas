@@ -1,4 +1,4 @@
-import fullpage from 'fullpage.js'
+// import fullpage from 'fullpage.js'
 import '../css/fullpage.css';
 import '../css/index.css';
 import '../css/animation.css';

@@ -18,10 +18,10 @@ const secretKey = "loveWebSecretKey";
 const tcb = require("@cloudbase/node-sdk");
 const fs = require("fs");
 const cloudBase = tcb.init({
-    env: "mrkleo-blog-2gw4gee4088deaca",
-    region: "ap-guangzhou",
-    secretId: "",
-    secretKey: ""
+    env: "",
+    region: "",
+    secretId: "",   // 填入你自己的腾讯api secretId
+    secretKey: ""   // 填入你自己的腾讯api  secretKey
 });
 
 var cors = require('koa2-cors');
