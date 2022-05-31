@@ -11,9 +11,9 @@ export const ROUTE_WHITE_NAME_LIST = ["/", "/login", "/404"];
 export const ERROR_IMG = "https://tva1.sinaimg.cn/large/e6c9d24ely1h1wgkg59bgj20u023zjvr.jpg";
 
 // 服务器接口地址
-export const API_BASE_URL = "http://116.205.247.150";
+// export const API_BASE_URL = "http://116.205.247.150";
 // 本地测试接口地址
-// export const API_BASE_URL = "http://127.0.0.1:5001";
+export const API_BASE_URL = "http://127.0.0.1:5001";
 
 const CONFIGS = {
     theme: "", // theme-dark
