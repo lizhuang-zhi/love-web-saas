@@ -85,13 +85,12 @@ export default defineComponent({
     const notify = (type, message) => {
       notification[type]({
         content: message,
-        duration: 1300,
+        duration: 1800,
       });
     };
     // 时间改动
-    const onChangeTime = (v) => {
-      console.log(v);
-      timeStamp.value = v;
+    const onChangeTime = (value) => {
+      timeStamp.value = value;
     };
     const { saveSetting } = useReduceFn();
     //点击按钮保存时间事件
@@ -101,6 +100,10 @@ export default defineComponent({
       loading.value = false;
     };
     const save = async () => {
+      if (timeStamp.value > Date.now()) {
+        notify("error", "选择的时间不能超过当前日期, 请重新选择");
+        return;
+      }
       let result = null;
       // 用户之前没有设置过
       if (btnText.value == "保存设置") {

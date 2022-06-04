@@ -1,3 +1,9 @@
+<template>
+    <n-config-provider :theme="theme" :theme-overrides="globalStyle">
+        <slot></slot>
+    </n-config-provider>
+</template>
+
 <script setup>
 import { ref, watchEffect } from "vue";
 import { useStore } from "vuex";
@@ -24,7 +30,6 @@ const styleDefault = {
         borderHoverError: "1px solid #FC536E",
     },
 };
-
 const styleLight = {
     common: {
         primaryColor: "#3a3a3aFF",
@@ -33,7 +38,6 @@ const styleLight = {
         primaryColorSuppl: "#3f3f3fFF",
     },
 };
-
 const styleDark = {
     common: {
         primaryColor: "#fafafa",
@@ -42,14 +46,14 @@ const styleDark = {
         primaryColorSuppl: "#f3f3f3",
     },
 };
-
 const globalStyle = ref(
     Object.assign(
         Store.state.settings.theme === "theme-dark" ? styleDark : styleLight
     )
 );
-
 watchEffect(() => {
+    // Store.state.settings.theme == "" 表示浅色
+    // Store.state.settings.theme == "theme-dark" 表示深色
     let isDark = Store.state.settings.theme === "theme-dark";
     theme.value = isDark ? darkTheme : null;
     globalStyle.value = Object.assign(
@@ -58,12 +62,6 @@ watchEffect(() => {
     );
 });
 </script>
-
-<template>
-    <n-config-provider :theme="theme" :theme-overrides="globalStyle">
-        <slot></slot>
-    </n-config-provider>
-</template>
 
 <style>
 .n-input {

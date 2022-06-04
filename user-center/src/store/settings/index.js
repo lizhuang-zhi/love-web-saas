@@ -10,10 +10,10 @@ const mutations = {
 
     UPDATE_SETTINGS: (state, form) => {
         Object.assign(state, form);
-
+        // 设置主题色
         changeTheme(state, state.theme);
+        // 设置国际化
         changeLocale(state, state.locale);
-
         localStorage.setItem(LS_KEY, JSON.stringify(form));
     },
 

@@ -1,13 +1,14 @@
 import '../css/album.css'
 import '../css/album_small.css'
-
 import axios from 'axios';
 
 
+const AxiosRequestUrl = 'http://116.205.247.150';
+// const AxiosRequestUrl = 'http://127.0.0.1:5001';
+
 // axios 实例
 const instance = axios.create({
-    baseURL: 'http://116.205.247.150',
-    // baseURL: 'http://127.0.0.1:5001',
+    baseURL: AxiosRequestUrl,
     timeout: 4000
 });
 /* 

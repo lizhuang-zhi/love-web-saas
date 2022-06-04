@@ -4,8 +4,8 @@ const {
 // 腾讯云存储
 const tcb = require("@cloudbase/node-sdk")
 const cloudBase = tcb.init({
-    env: "mrkleo-blog-2gw4gee4088deaca",
-    region: "ap-guangzhou",
+    env: "",
+    region: "",
     secretId: "",
     secretKey: ""
 })

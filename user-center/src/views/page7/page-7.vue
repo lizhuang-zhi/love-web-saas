@@ -40,7 +40,7 @@ import {
 import { useStore } from "vuex";
 import useReduceFn from "@/hooks/useReduceFn";
 import { CreateInfo, GetInfo, UpdateInfo } from "@/api/seventhPage";
-import HelpButton from "@/components/HelpButton.vue"
+import HelpButton from "@/components/HelpButton.vue";
 
 export default defineComponent({
   components: {
@@ -49,7 +49,7 @@ export default defineComponent({
     NButton,
     NDatePicker,
     NSpin,
-    HelpButton
+    HelpButton,
   },
   setup() {
     const Store = useStore();
@@ -97,6 +97,10 @@ export default defineComponent({
       loading.value = false;
     };
     const save = async () => {
+      if (timeStamp.value > Date.now()) {
+        notify("error", "选择的时间不能超过当前日期, 请重新选择");
+        return;
+      }
       let result = null;
       // 用户之前没有设置过
       if (btnText.value == "保存设置") {

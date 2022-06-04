@@ -173,6 +173,7 @@ export default defineComponent({
       return file;
     };
 
+    // 在 onMounted 之前进行侦听 
     watch(
       [
         () => props.itemData.fileObj.url,

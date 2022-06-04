@@ -34,6 +34,7 @@ export default defineComponent({
 <template>
   <n-message-provider>
     <n-notification-provider>
+      <!-- Global 为设置背景变换 -->
       <Global>
         <n-dialog-provider>
           <router-view />

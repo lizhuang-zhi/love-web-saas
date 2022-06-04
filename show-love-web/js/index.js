@@ -1,8 +1,41 @@
-// import fullpage from 'fullpage.js'
 import '../css/fullpage.css';
 import '../css/index.css';
 import '../css/animation.css';
 import axios from 'axios';
+
+const RefreshPageUrl = "http://162.14.99.93:5200/";
+const AxiosRequestUrl = 'http://116.205.247.150';
+// const AxiosRequestUrl = 'http://127.0.0.1:5001';
+
+// 获取url后的参数
+let userId = "";
+let searchValue = location.search.split('?');
+if (searchValue.length == 2) {
+    let keyValue = searchValue[1];
+    let splitKeyValue = keyValue.split("=");
+    if (splitKeyValue.length == 2 && splitKeyValue[0] === "id") {
+        userId = splitKeyValue[1];
+    }
+}
+let localUserInfo = JSON.parse(localStorage.getItem('userInfo'))
+// 本地存储的userId
+let lastUserId = "";
+if (localUserInfo) {
+    lastUserId = localUserInfo._id;
+}
+// 获取localStorage中userId是否和当前输入的一样
+(function () {
+    if (userId !== "" && userId !== lastUserId) {
+        let userInfoData = {
+            _id: userId
+        }
+        let userInfo = JSON.stringify(userInfoData)
+        // 更新本地缓存
+        localStorage.setItem('userInfo', userInfo)
+        // 刷新页面
+        location.href = RefreshPageUrl
+    }
+})()
 
 // 倒计时 runTimer 
 let runTimer = null;
@@ -19,8 +52,7 @@ let defaultLoveEachTime = 0;
 
 // axios 实例
 const instance = axios.create({
-    baseURL: 'http://116.205.247.150',
-    // baseURL: 'http://127.0.0.1:5001',
+    baseURL: AxiosRequestUrl,
     timeout: 4000
 });
 /* 
@@ -365,7 +397,7 @@ function createItemDom(index, leftTopDesc, leftBottomDesc, leftTitle, picUrl, ri
     return item;
 }
 
-
+// DOM解析后(包括视频,图片的静态资源都加载后)
 window.onload = async function () {
     // 设置第一页数据
     await updateDomContent1();

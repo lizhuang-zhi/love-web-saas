@@ -14,7 +14,6 @@ module.exports = {
       path.resolve(__dirname, "js/index.js"),
       path.resolve(__dirname, "js/carousel.js"),
     ],
-    login: path.resolve(__dirname, "js/login.js"),
     album: path.resolve(__dirname, "js/album.js"),
   },
   // 输出
@@ -60,23 +59,6 @@ module.exports = {
       template: path.resolve(__dirname, "index.html"),
       // 配置对应模块的js
       chunks: ["index"],
-      inject: true,
-      minify: {
-        html5: true,
-        minifyCSS: true,
-        minifyJS: true,
-        // 移除空格
-        collapseWhitespace: true,
-        // 移除注释
-        removeComments: true,
-        preserveLineBreaks: false
-      }
-    }),
-    // login页面
-    new HtmlWebpackPlugin({
-      filename: "login.html",
-      template: path.resolve(__dirname, "login.html"),
-      chunks: ["login"],
       inject: true,
       minify: {
         html5: true,

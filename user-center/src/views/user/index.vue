@@ -9,6 +9,16 @@
       <!-- 用户信息 -->
       <n-space vertical align="center" :size="distance">
         <n-space align="center">
+          id值:
+          <n-input
+            v-model:value="userid"
+            type="text"
+            size="large"
+            placeholder="请输入.."
+            readonly
+          />
+        </n-space>
+        <n-space align="center">
           邮箱:
           <n-input
             v-model:value="email"
@@ -107,6 +117,7 @@ export default defineComponent({
     const username = ref("");
     const password = ref("");
     const email = ref("");
+    const userid = ref("");
     const gender = ref("");
     const loading = ref(true);
     // 确认按钮文本
@@ -116,6 +127,7 @@ export default defineComponent({
     let cancelable = ref(false);
 
     onMounted(() => {
+      userid.value = Store.state.user.userid;
       username.value = Store.state.user.username;
       password.value = Store.state.user.password;
       email.value = Store.state.user.email;
@@ -158,7 +170,7 @@ export default defineComponent({
       if (btnText.value == "修改信息") {
         // 发送请求, 保存第一页设置内容
         result = await UpdateUserInfo({
-          userId: Store.state.user.userid,
+          userId: userid.value,
           username: username.value,
           password: password.value,
         });
@@ -180,6 +192,7 @@ export default defineComponent({
       username,
       password,
       email,
+      userid,
       gender,
       saveContent,
       loading,
